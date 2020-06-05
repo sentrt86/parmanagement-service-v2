@@ -35,7 +35,7 @@ public class ParRole {
 		this.roleName = roleName;
 	}
 
-	public boolean isRoleActive() {
+	public boolean getRoleActive() {
 		return roleActive;
 	}
 

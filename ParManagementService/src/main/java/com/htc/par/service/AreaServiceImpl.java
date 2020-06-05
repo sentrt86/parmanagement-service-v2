@@ -35,9 +35,9 @@ public class AreaServiceImpl implements IAreaService {
 
 	@Override
 	public List<Area> getAllAreas() throws ResourceNotFoundException {	
-		List<Area> area = new ArrayList<Area> ();		
+		List<Area> areaList = new ArrayList<Area> ();		
 		try {
-			area = areaDaoImpl.getAllAreas();		
+			areaList = areaDaoImpl.getAllAreas();		
 		}catch(EmptyResultDataAccessException ex) {
 			throw new ResourceNotFoundException(ParConstants.dataNotFound);
 
@@ -45,7 +45,7 @@ public class AreaServiceImpl implements IAreaService {
 			throw new ResourceAccessException(ParConstants.databaseAccessIssue);			
 		}
 
-		return area;
+		return areaList;
 	}
 
 
@@ -53,7 +53,6 @@ public class AreaServiceImpl implements IAreaService {
 	 * GET Areas by area id
 	 * 
 	 * @ResourseNotFoundException
-	 * 
 	 * @ResourceAccessException
 	 */
 
@@ -61,18 +60,18 @@ public class AreaServiceImpl implements IAreaService {
 	@Override 
 	public List<Area> getAreaById(int areaId) throws ResourceNotFoundException { 
 		List<Area> areaList = new ArrayList<Area> (); 
-	try {
-		areaList = areaDaoImpl.getAreaById(areaId);
-		if(areaList.isEmpty()) {
+		try {
+			areaList = areaDaoImpl.getAreaById(areaId);
+			if(areaList.isEmpty()) {
+				throw new ResourceNotFoundException(String.format(ParConstants.dataNotFound + "for Area Id %S",areaId));	
+			}
+		}catch(EmptyResultDataAccessException ex) {
 			throw new ResourceNotFoundException(String.format(ParConstants.dataNotFound + "for Area Id %S",areaId));	
+		}catch(DataAccessException ex) { 
+			throw new ResourceAccessException(ParConstants.databaseAccessIssue); 
 		}
-	}catch(EmptyResultDataAccessException ex) {
-		throw new ResourceNotFoundException(String.format(ParConstants.dataNotFound + "for Area Id %S",areaId));	
-	}catch(DataAccessException ex) { 
-		throw new ResourceAccessException(ParConstants.databaseAccessIssue); 
-	}
 
-	return areaList; 
+		return areaList; 
 	
 	}
 
@@ -91,9 +90,10 @@ public class AreaServiceImpl implements IAreaService {
 
 		try { 
 			boolean deleteAreaSuccess = areaDaoImpl.deleteArea(areaId); 
-			if(deleteAreaSuccess) { 
+			if(deleteAreaSuccess) 
+			{ 
 				return String.format(ParConstants.deleteSuccessfull + "for Area Id: " + areaId); 
-				}
+			}
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotDeletedException(String.format(ParConstants.deleteUnSuccessfull + "for Area  Id : " + areaId)); 
 		} 
@@ -101,7 +101,7 @@ public class AreaServiceImpl implements IAreaService {
 	}
 	
 	/*
-	 * Update the Area for a give area id
+	 * Update the Area information for a given area id
 	 * 
 	 * @ResourseNotFoundException
 	 * 
@@ -111,14 +111,23 @@ public class AreaServiceImpl implements IAreaService {
 
 	@Override 
 	public String updateArea(AreaTO areaTO) throws ResourceNotFoundException {
-
+		List<Area> allAreasList = new ArrayList<Area>();
 		try { 
+			allAreasList = areaDaoImpl.getAllAreas(); 
+			if(!allAreasList.isEmpty()) {
+				for(Area data : allAreasList) 
+				{ 
+					if (data.getAreaName().equalsIgnoreCase(areaTO.getAreaName())) 
+					{ 
+						throw new ResourceDuplicateException(String.format(ParConstants.duplicateFound + "for Area: %s",areaTO.getAreaName()));
+					} 
+				} 
+				boolean updateAreaSuccess = areaDaoImpl.updateArea(new Area(areaTO.getAreaId(),areaTO.getAreaName(),areaTO.getAreaActive())); 
 			
-			boolean updateAreaSuccess = areaDaoImpl.updateArea(new Area(areaTO.getAreaId(),areaTO.getAreaName(),areaTO.getAreaActive())); 
-			
-			if(updateAreaSuccess) { 
-				return String.format(ParConstants.updateSuccessfull + "for Area: %s",areaTO.getAreaName()); 
+				if(updateAreaSuccess) { 
+					return String.format(ParConstants.updateSuccessfull + "for Area: %s",areaTO.getAreaName()); 
 				}
+			}
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotUpdatedException(String.format(ParConstants.updateUnSuccessfull + "for Area : %s",areaTO.getAreaName())); 
 		}
@@ -139,28 +148,36 @@ public class AreaServiceImpl implements IAreaService {
 	@Override 
 	public String createArea(AreaTO areaTO) throws ResourceNotCreatedException { 
 		List<Area> allAreasList = new ArrayList<Area>();
-
-	try { 
-		allAreasList = areaDaoImpl.getAllAreas(); 
-		if(!allAreasList.isEmpty()) {
-			for(Area data : allAreasList) 
-			{ 
-				if (data.getAreaName().equalsIgnoreCase(areaTO.getAreaName())) 
-				{ 
-					throw new ResourceDuplicateException(String.format(ParConstants.duplicateFound + "for Area: %s",areaTO.getAreaName()));
-				} 
-			} 
 		
-			if(areaDaoImpl.createArea(new Area(areaTO.getAreaId(),areaTO.getAreaName(),areaTO.getAreaActive())))
-			{ 
-				return String.format(ParConstants.createSuccessfull + "for area : %s",areaTO.getAreaName()); 
-			} 
-		}
+		try { 
+			allAreasList = areaDaoImpl.getAllAreas(); 
+			if(!allAreasList.isEmpty()) {
+				for(Area data : allAreasList) 
+				{ 
+					if (data.getAreaName().equalsIgnoreCase(areaTO.getAreaName())) 
+					{ 
+						throw new ResourceDuplicateException(String.format(ParConstants.duplicateFound + "for Area: %s",areaTO.getAreaName()));
+					} 
+				} 
 
-	}catch(DataAccessException ex) { 
-		throw new ResourceNotCreatedException(String.format(ParConstants.createUnSuccessfull + "for Area : %s ",areaTO.getAreaName())); 
-	} 
-	return String.format(ParConstants.createUnSuccessfull + "for area : %s",areaTO.getAreaName());
+				if(areaDaoImpl.createArea(new Area(areaTO.getAreaId(),areaTO.getAreaName(),areaTO.getAreaActive())))
+				{ 
+					return String.format(ParConstants.createSuccessfull + "for area : %s",areaTO.getAreaName()); 
+				} 
+			}
+			else if (allAreasList.isEmpty()) {
+				if(areaDaoImpl.createArea(new Area(areaTO.getAreaId(),areaTO.getAreaName(),areaTO.getAreaActive())))
+				{ 
+					return String.format(ParConstants.createSuccessfull + "for area : %s",areaTO.getAreaName()); 
+				} 
+				
+			}
+				
+
+		}catch(DataAccessException ex) { 
+			throw new ResourceNotCreatedException(String.format(ParConstants.createUnSuccessfull + "for Area : %s ",areaTO.getAreaName())); 
+		} 
+		return String.format(ParConstants.createUnSuccessfull + "for area : %s",areaTO.getAreaName());
 
 	}
 

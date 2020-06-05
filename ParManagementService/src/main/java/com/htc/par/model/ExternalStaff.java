@@ -53,7 +53,7 @@ public class ExternalStaff {
 	}
 
 
-	public boolean isExtStaffActive() {
+	public boolean getExtStaffActive() {
 		return extStaffActive;
 	}
 
@@ -70,6 +70,6 @@ public class ExternalStaff {
 	}
 	
 	
-	
+
 
 }

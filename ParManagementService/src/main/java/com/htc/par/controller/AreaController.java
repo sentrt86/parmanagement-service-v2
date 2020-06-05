@@ -57,7 +57,6 @@ public class AreaController {
 	
 	@RequestMapping(value="/getAreaById/{areaId}",method=RequestMethod.GET)
 	public ResponseEntity<List<Area>> getAreaById(@PathVariable("areaId") int areaId) throws ResourceNotFoundException{
-   		System.out.println("Areaid:"+ areaId);
 		return new  ResponseEntity<List<Area>>(areaServiceImpl.getAreaById(areaId),HttpStatus.OK);
 	}
 	
@@ -92,6 +91,7 @@ public class AreaController {
 	
 	@RequestMapping(value="/createArea",method=RequestMethod.POST)
 	public ResponseEntity<String> createArea(@RequestBody @Valid AreaTO areaTO) throws ResourceNotCreatedException{
+		System.out.println("ser:"+areaTO.toString());
 		return new  ResponseEntity<String>(areaServiceImpl.createArea(areaTO),HttpStatus.OK);
 	}
 

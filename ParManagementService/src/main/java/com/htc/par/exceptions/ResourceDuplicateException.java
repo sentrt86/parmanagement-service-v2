@@ -1,9 +1,11 @@
 package com.htc.par.exceptions;
 
-@SuppressWarnings("serial")
+
 public class ResourceDuplicateException extends RuntimeException {
 
 
+	private static final long serialVersionUID = 1L;
+	
 	public ResourceDuplicateException() {
 		super();
 	}

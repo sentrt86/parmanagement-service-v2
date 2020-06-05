@@ -30,7 +30,7 @@ public class Skill {
 	public void setSkillName(String skillName) {
 		SkillName = skillName;
 	}
-	public boolean isSkillActive() {
+	public boolean getSkillActive() {
 		return skillActive;
 	}
 	public void setSkillActive(boolean skillActive) {

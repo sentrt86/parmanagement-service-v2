@@ -11,7 +11,7 @@ public interface IAreaDAO {
 	List<Area> getActiveArea();
 	Boolean updateArea(Area area);
 	Boolean deleteArea(int areaId);
-	boolean createArea(Area area); 
+	Boolean createArea(Area area); 
 	int getNextAreaId();
 
 }

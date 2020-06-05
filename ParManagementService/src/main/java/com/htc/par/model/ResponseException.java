@@ -12,6 +12,7 @@ public class ResponseException {
 	private String status;
 	private String message;
 	private String details;
+	
 	public ResponseException(Date timestamp, String status,String message, String details) {
 		super();
 		this.timestamp = timestamp;
