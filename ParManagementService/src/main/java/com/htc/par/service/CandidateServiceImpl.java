@@ -202,17 +202,13 @@ public class CandidateServiceImpl implements ICandidateService {
 					} 
 				} 
 
-				if(candidateDaoImpl.createCandidate(new Candidate(candidateTO.getCandidateId(),candidateTO.getCandidateName(),candidateTO.getCandidatePhoneNum(),candidateTO.getCandidateEmailTxt(),candidateTO.getCandidateReceivedDate(),candidateTO.getCandidateActive(),candidateTO.getSkill())))
-				{ 
-					return String.format(ParConstants.createSuccessfull + "for Candidate : %s",candidateTO.getCandidateName()); 
-				} 
+				
 			}
-			else if(allCandidateList.isEmpty()) {
-				if(candidateDaoImpl.createCandidate(new Candidate(candidateTO.getCandidateId(),candidateTO.getCandidateName(),candidateTO.getCandidatePhoneNum(),candidateTO.getCandidateEmailTxt(),candidateTO.getCandidateReceivedDate(),candidateTO.getCandidateActive(),candidateTO.getSkill())))
-				{ 
-					return String.format(ParConstants.createSuccessfull + "for Candidate : %s",candidateTO.getCandidateName()); 
-				} 
-			}
+			
+			if(candidateDaoImpl.createCandidate(new Candidate(candidateTO.getCandidateId(),candidateTO.getCandidateName(),candidateTO.getCandidatePhoneNum(),candidateTO.getCandidateEmailTxt(),candidateTO.getCandidateReceivedDate(),candidateTO.getCandidateActive(),candidateTO.getSkill())))
+			{ 
+				return String.format(ParConstants.createSuccessfull + "for Candidate : %s",candidateTO.getCandidateName()); 
+			} 
 
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotCreatedException(String.format(ParConstants.createUnSuccessfull + "for Candidate : %s ",candidateTO.getCandidateName())); 

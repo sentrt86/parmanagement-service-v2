@@ -117,18 +117,13 @@ public class SkillServiceImpl implements ISkillService {
 					} 
 				} 
 
-				if(skillDaoImpl.createSkill(new Skill(skillTO.getSkillId(),skillTO.getSkillName(),skillTO.getSkillActive())))
-				{ 
-					return String.format(ParConstants.createSuccessfull + "for Skill : %s",skillTO.getSkillName()); 
-				} 
-			}
-			else if(allSkillsList.isEmpty()) {
-				if(skillDaoImpl.createSkill(new Skill(skillTO.getSkillId(),skillTO.getSkillName(),skillTO.getSkillActive())))
-				{ 
-					return String.format(ParConstants.createSuccessfull + "for Skill : %s",skillTO.getSkillName()); 
-				} 
 				
 			}
+			
+			if(skillDaoImpl.createSkill(new Skill(skillTO.getSkillId(),skillTO.getSkillName(),skillTO.getSkillActive())))
+			{ 
+				return String.format(ParConstants.createSuccessfull + "for Skill : %s",skillTO.getSkillName()); 
+			} 
 
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotCreatedException(String.format(ParConstants.createUnSuccessfull + "for Skill : %s ",skillTO.getSkillName())); 

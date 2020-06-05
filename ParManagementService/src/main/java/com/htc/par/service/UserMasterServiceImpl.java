@@ -148,19 +148,11 @@ public class UserMasterServiceImpl  implements IUserMasterService{
 						throw new ResourceDuplicateException(String.format(ParConstants.duplicateFound + "for UserMaster: %s",userMasterTO.getUserFirstName() + " "+userMasterTO.getUserLastName() ));
 					} 
 				} 
-
-				if(userMasterDaoImpl.createUserMaster(new UserMaster(userMasterTO.getUserId(),userMasterTO.getUserFirstName(),userMasterTO.getUserLastName(),userMasterTO.getUserPhoneNo(),userMasterTO.getUserEmailTxt(),userMasterTO.getUserActive(),userMasterTO.getUserName(),userMasterTO.getPassword(),userMasterTO.getUserRole())))
-				{ 
-					return String.format(ParConstants.createSuccessfull + "for userMaster : %s",userMasterTO.getUserFirstName()); 
-				} 
 			}
-			else if (allUserMastersList.isEmpty()) {
-				if(userMasterDaoImpl.createUserMaster(new UserMaster(userMasterTO.getUserId(),userMasterTO.getUserFirstName(),userMasterTO.getUserLastName(),userMasterTO.getUserPhoneNo(),userMasterTO.getUserEmailTxt(),userMasterTO.getUserActive(),userMasterTO.getUserName(),userMasterTO.getPassword(),userMasterTO.getUserRole())))
-				{ 
-					return String.format(ParConstants.createSuccessfull + "for userMaster : %s",userMasterTO.getUserFirstName()); 
-				}
-				
-			}
+			if(userMasterDaoImpl.createUserMaster(new UserMaster(userMasterTO.getUserId(),userMasterTO.getUserFirstName(),userMasterTO.getUserLastName(),userMasterTO.getUserPhoneNo(),userMasterTO.getUserEmailTxt(),userMasterTO.getUserActive(),userMasterTO.getUserName(),userMasterTO.getPassword(),userMasterTO.getUserRole())))
+			{ 
+				return String.format(ParConstants.createSuccessfull + "for userMaster : %s",userMasterTO.getUserFirstName()); 
+			} 
 				
 
 		}catch(DataAccessException ex) { 

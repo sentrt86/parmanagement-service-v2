@@ -84,6 +84,20 @@ public class ParSqlQueries {
 	public static String updateUserMasterQuery              =   " UPDATE USER_MSTR SET USER_FIRST_NM = ? ,USER_LAST_NM = ?, USER_PHN_NUM = ?, USER_EMAIL_TXT= ?,USER_ACTIVE = ?, USER_USR_NM = ?, USER_PWD = ? , USER_ROLE_CD = ? WHERE USER_ID = ?";
 	public static String getNextUserMasterIdQuery           =   " SELECT NEXTVAL('USER_SEQ')";
 	
+	// Prescreener Queries
+    public static String getAllPrescreenerQuery             =   " SELECT PRE_SCR_ID,PRE_SCR_NM,PRE_SCR_EMAIL_TXT,PRE_SCR_PHN_NUM,PRE_SCR_ACTIVE FROM PRE_SCREENER";
+    public static String addPrescreenerQuery                =   " INSERT INTO PRE_SCREENER (PRE_SCR_ID,PRE_SCR_NM,PRE_SCR_EMAIL_TXT,PRE_SCR_PHN_NUM,PRE_SCR_ACTIVE) VALUES(?,?,?,?,?)";
+    public static String updatePrescreenerQuery             =   " UPDATE PRE_SCREENER SET PRE_SCR_NM=?, PRE_SCR_EMAIL_TXT=?,PRE_SCR_PHN_NUM=?,PRE_SCR_ACTIVE=? WHERE PRE_SCR_ID=?";
+    public static String deletePrescreenerQuery             =   " DELETE FROM PRE_SCREENER WHERE PRE_SCR_ID = ?";
+    public static String getNextPrescreenerId               =   " SELECT NEXTVAL('PRE_SCR_SEQ')";
+    
+    
+ // Location Queries
+    public static String getAllLocationsQuery               =   " SELECT LOC_ID,LOC_NM,LOC_ACTIVE FROM LOCATION";
+    public static String addLocationQuery                   =   " INSERT INTO LOCATION(LOC_ID,LOC_NM,LOC_ACTIVE) VALUES(?,?,?)";
+    public static String updateLocationQuery                =   " UPDATE LOCATION SET LOC_NM =?, LOC_ACTIVE=? WHERE LOC_ID=?";
+    public static String deleteLocationQuery                =   " DELETE FROM LOCATION WHERE LOC_ID = ?";
+    public static String getNextLocationId                  =   " SELECT NEXTVAL('LOC_SEQ')";
 
 // Par Master Queries
 	

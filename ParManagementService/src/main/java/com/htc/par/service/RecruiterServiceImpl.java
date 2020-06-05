@@ -203,17 +203,12 @@ public class RecruiterServiceImpl implements IRecruiterService {
 					} 
 				} 
 
-				if(recruiterDaoImpl.createRecruiter(new Recruiter(recruiterTO.getRecruiterId(),recruiterTO.getRecruiterName(),recruiterTO.getRecruiterPhoneNo(),recruiterTO.getRecruiterEmail(),recruiterTO.getRecruiterEmailFlag(),recruiterTO.getRecruiterActive())))
-				{ 
-					return String.format(ParConstants.createSuccessfull + "for External Staff : %s",recruiterTO.getRecruiterName()); 
-				} 
+				
 			}
-			else if(allRecruiterList.isEmpty()) {
-				if(recruiterDaoImpl.createRecruiter(new Recruiter(recruiterTO.getRecruiterId(),recruiterTO.getRecruiterName(),recruiterTO.getRecruiterPhoneNo(),recruiterTO.getRecruiterEmail(),recruiterTO.getRecruiterEmailFlag(),recruiterTO.getRecruiterActive())))
-				{ 
-					return String.format(ParConstants.createSuccessfull + "for External Staff : %s",recruiterTO.getRecruiterName()); 
-				} 
-			}
+			if(recruiterDaoImpl.createRecruiter(new Recruiter(recruiterTO.getRecruiterId(),recruiterTO.getRecruiterName(),recruiterTO.getRecruiterPhoneNo(),recruiterTO.getRecruiterEmail(),recruiterTO.getRecruiterEmailFlag(),recruiterTO.getRecruiterActive())))
+			{ 
+				return String.format(ParConstants.createSuccessfull + "for External Staff : %s",recruiterTO.getRecruiterName()); 
+			} 
 
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotCreatedException(String.format(ParConstants.createUnSuccessfull + "for Recruiter : %s ",recruiterTO.getRecruiterName())); 

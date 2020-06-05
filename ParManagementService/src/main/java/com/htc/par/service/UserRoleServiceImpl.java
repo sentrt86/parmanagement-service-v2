@@ -178,17 +178,13 @@ public class UserRoleServiceImpl  implements IUserRoleService{
 					} 
 				} 
 
-				if(userRoleDaoImpl.createUserRole(new UserRole(userRoleTO.getUserRoleId(),userRoleTO.getUserRoleName())))
-				{ 
-					return String.format(ParConstants.createSuccessfull + "for User Role : %s",userRoleTO.getUserRoleName()); 
-				} 
+				
 			}
-			else if(allUserRoleList.isEmpty()) {
-				if(userRoleDaoImpl.createUserRole(new UserRole(userRoleTO.getUserRoleId(),userRoleTO.getUserRoleName())))
-				{ 
-					return String.format(ParConstants.createSuccessfull + "for User Role : %s",userRoleTO.getUserRoleName()); 
-				} 
-			}
+			
+			if(userRoleDaoImpl.createUserRole(new UserRole(userRoleTO.getUserRoleId(),userRoleTO.getUserRoleName())))
+			{ 
+				return String.format(ParConstants.createSuccessfull + "for User Role : %s",userRoleTO.getUserRoleName()); 
+			} 
 
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotCreatedException(String.format(ParConstants.createUnSuccessfull + "for User Role : %s ",userRoleTO.getUserRoleName())); 

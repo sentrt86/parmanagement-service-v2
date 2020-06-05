@@ -159,19 +159,13 @@ public class AreaServiceImpl implements IAreaService {
 						throw new ResourceDuplicateException(String.format(ParConstants.duplicateFound + "for Area: %s",areaTO.getAreaName()));
 					} 
 				} 
-
-				if(areaDaoImpl.createArea(new Area(areaTO.getAreaId(),areaTO.getAreaName(),areaTO.getAreaActive())))
-				{ 
-					return String.format(ParConstants.createSuccessfull + "for area : %s",areaTO.getAreaName()); 
-				} 
-			}
-			else if (allAreasList.isEmpty()) {
-				if(areaDaoImpl.createArea(new Area(areaTO.getAreaId(),areaTO.getAreaName(),areaTO.getAreaActive())))
-				{ 
-					return String.format(ParConstants.createSuccessfull + "for area : %s",areaTO.getAreaName()); 
-				} 
 				
 			}
+			
+			if(areaDaoImpl.createArea(new Area(areaTO.getAreaId(),areaTO.getAreaName(),areaTO.getAreaActive())))
+			{ 
+				return String.format(ParConstants.createSuccessfull + "for area : %s",areaTO.getAreaName()); 
+			} 
 				
 
 		}catch(DataAccessException ex) { 

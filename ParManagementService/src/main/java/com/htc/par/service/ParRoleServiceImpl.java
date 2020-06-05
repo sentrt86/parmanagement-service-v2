@@ -115,17 +115,13 @@ public class ParRoleServiceImpl implements IParRoleService {
 					} 
 				} 
 
-				if(parRoleDaoImpl.createParRole(new ParRole(parRoleTO.getRoleId(),parRoleTO.getRoleName(),parRoleTO.getRoleActive())))
-				{ 
-					return String.format(ParConstants.createSuccessfull + "for Role : %s",parRoleTO.getRoleName()); 
-				} 
+				
 			}
-			else if(allParRoleList.isEmpty()) {
-				if(parRoleDaoImpl.createParRole(new ParRole(parRoleTO.getRoleId(),parRoleTO.getRoleName(),parRoleTO.getRoleActive())))
-				{ 
-					return String.format(ParConstants.createSuccessfull + "for Role : %s",parRoleTO.getRoleName()); 
-				}
-			}
+			
+			if(parRoleDaoImpl.createParRole(new ParRole(parRoleTO.getRoleId(),parRoleTO.getRoleName(),parRoleTO.getRoleActive())))
+			{ 
+				return String.format(ParConstants.createSuccessfull + "for Role : %s",parRoleTO.getRoleName()); 
+			} 
 
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotCreatedException(String.format(ParConstants.createUnSuccessfull + "for Role : %s ",parRoleTO.getRoleName())); 

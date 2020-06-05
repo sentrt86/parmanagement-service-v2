@@ -201,18 +201,12 @@ public class ExternalStaffServiceImpl implements IExternalStaffService {
 					} 
 				} 
 
-				if(externalStaffDaoImpl.createExternalStaff(new ExternalStaff(externalStaffTO.getExtStaffId(),externalStaffTO.getExtStaffName(),externalStaffTO.getArea(),externalStaffTO.getExtStaffActive())))
-				{ 
-					return String.format(ParConstants.createSuccessfull + "for External Staff : %s",externalStaffTO.getExtStaffName()); 
-				} 
 			}
-			else if(allExtStaffList.isEmpty()) {
-				if(externalStaffDaoImpl.createExternalStaff(new ExternalStaff(externalStaffTO.getExtStaffId(),externalStaffTO.getExtStaffName(),externalStaffTO.getArea(),externalStaffTO.getExtStaffActive())))
-				{ 
-					return String.format(ParConstants.createSuccessfull + "for External Staff : %s",externalStaffTO.getExtStaffName()); 
-				}
-				
-			}
+
+			if(externalStaffDaoImpl.createExternalStaff(new ExternalStaff(externalStaffTO.getExtStaffId(),externalStaffTO.getExtStaffName(),externalStaffTO.getArea(),externalStaffTO.getExtStaffActive())))
+			{ 
+				return String.format(ParConstants.createSuccessfull + "for External Staff : %s",externalStaffTO.getExtStaffName()); 
+			} 
 
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotCreatedException(String.format(ParConstants.createUnSuccessfull + "for External Staff : %s ",externalStaffTO.getExtStaffName())); 
