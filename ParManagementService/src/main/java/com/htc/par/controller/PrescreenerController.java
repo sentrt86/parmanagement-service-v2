@@ -40,7 +40,16 @@ public class PrescreenerController {
 		return new ResponseEntity<List<Prescreener>>(preScreenerServiceImpl.getAllPrescreeners(),HttpStatus.OK);		
 	}
 	
+	/*
+	 * Request handler to get all the prescreeners
+	 * 
+	 * @ResoruceNotFoundException
+	 */
 	
+	@RequestMapping(value="/getActivePrescreeners",method=RequestMethod.GET)
+	public ResponseEntity<List<Prescreener>> getActivePrescreeners() throws ResourceNotFoundException{
+		return new ResponseEntity<List<Prescreener>>(preScreenerServiceImpl.getActivePrescreeners(),HttpStatus.OK);		
+	}
 	
 	@RequestMapping(value="/getNextPrescreenerId",method=RequestMethod.GET)
 	public ResponseEntity<Integer> getNextPrescreenerId() throws ResourceAccessException{

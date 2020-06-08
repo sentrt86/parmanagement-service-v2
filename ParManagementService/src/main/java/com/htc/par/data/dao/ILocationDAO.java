@@ -11,6 +11,7 @@ public interface ILocationDAO {
 	boolean createLocation(Location location);
 	boolean updateLocation(Location location);
 	boolean deleteLocation(int  locationId);
+	List<Location> getActiveLocation();
 	
 	
 

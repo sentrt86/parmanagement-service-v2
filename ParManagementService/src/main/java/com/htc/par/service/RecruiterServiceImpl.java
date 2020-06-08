@@ -21,18 +21,18 @@ import com.htc.par.to.RecruiterTO;
 
 @Service
 public class RecruiterServiceImpl implements IRecruiterService {
-	
-	
+
+
 	@Autowired
 	RecruiterDAOImpl recruiterDaoImpl;
-	
+
 	/*
 	 * Request handler to GET all external Staff
 	 * 
 	 * @ResourseNotFoundException
 	 * @ResourceAccessException
 	 */
-	
+
 	@Override
 	public List<Recruiter> getAllRecruiter() {
 		List<Recruiter> recruiterList = new ArrayList<Recruiter> ();		
@@ -55,7 +55,7 @@ public class RecruiterServiceImpl implements IRecruiterService {
 	 * 
 	 * @ResourceAccessException
 	 */
-	
+
 	@Override
 	public List<Recruiter> getRecruiterById(int recruiterId) {
 		List<Recruiter> recruiterList = new ArrayList<Recruiter> (); 
@@ -80,7 +80,7 @@ public class RecruiterServiceImpl implements IRecruiterService {
 	 * 
 	 * @ResourceAccessException
 	 */
-	
+
 	@Override
 	public List<Recruiter> getActiveRecruiter() {
 		List<Recruiter> recruiterList = new ArrayList<Recruiter> ();		
@@ -95,7 +95,7 @@ public class RecruiterServiceImpl implements IRecruiterService {
 
 		return recruiterList;
 	}
-	
+
 	/*
 	 * GET Recruiter by recruiter name
 	 * 
@@ -128,29 +128,15 @@ public class RecruiterServiceImpl implements IRecruiterService {
 	 * 
 	 * @ResourseAccessException
 	 */
-	
+
 	@Override
 	public String updateRecruiter(RecruiterTO recruiterTO) {
-	
-		List<Recruiter> allRecruiterList = new ArrayList<Recruiter>();
 		try { 
-			allRecruiterList = recruiterDaoImpl.getAllRecruiter(); 
-			if(!allRecruiterList.isEmpty()) {
-				for(Recruiter data : allRecruiterList) 
-				{ 
-					if (data.getRecruiterName().equalsIgnoreCase(recruiterTO.getRecruiterName()) && data.getRecruiterPhoneNo().equalsIgnoreCase(recruiterTO.getRecruiterPhoneNo())) 
-					{ 
-						throw new ResourceDuplicateException(String.format(ParConstants.duplicateFound + "for Recruiter : %s",recruiterTO.getRecruiterName()));
-					} 
-				} 
-				boolean updateRecruiterSuccess = recruiterDaoImpl.updateRecruiter(new Recruiter(recruiterTO.getRecruiterId(),recruiterTO.getRecruiterName(),recruiterTO.getRecruiterPhoneNo(),recruiterTO.getRecruiterEmail(),recruiterTO.getRecruiterEmailFlag(),recruiterTO.getRecruiterActive())); 
-				
-				if(updateRecruiterSuccess ) { 
-					return String.format(ParConstants.updateSuccessfull + "for Recruiter : %s",recruiterTO.getRecruiterName()); 
-					}
-			}
+			boolean updateRecruiterSuccess = recruiterDaoImpl.updateRecruiter(new Recruiter(recruiterTO.getRecruiterId(),recruiterTO.getRecruiterName(),recruiterTO.getRecruiterPhoneNo(),recruiterTO.getRecruiterEmail(),recruiterTO.getRecruiterEmailFlag(),recruiterTO.getRecruiterActive())); 
 
-			
+			if(updateRecruiterSuccess ) { 
+				return String.format(ParConstants.updateSuccessfull + "for Recruiter : %s",recruiterTO.getRecruiterName()); 
+			}
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotUpdatedException(String.format(ParConstants.updateUnSuccessfull + "for Recruitr : %s",recruiterTO.getRecruiterName())); 
 		}
@@ -158,7 +144,7 @@ public class RecruiterServiceImpl implements IRecruiterService {
 
 	}
 
-	
+
 	/*
 	 * Delete the Recruiter for a give recruiter id
 	 * 
@@ -166,14 +152,14 @@ public class RecruiterServiceImpl implements IRecruiterService {
 	 * 
 	 * @ResourseAccessException
 	 */
-	
+
 	@Override
 	public String deleteRecruiter(int recruiterId) {
 		try { 
 			boolean deleteRecruiter = recruiterDaoImpl.deleteRecruiter(recruiterId); 
 			if(deleteRecruiter) { 
 				return String.format(ParConstants.deleteSuccessfull + "for Recruiter Id: " + recruiterId); 
-				}
+			}
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotDeletedException(String.format(ParConstants.deleteUnSuccessfull + "for Recruiter  Id : " + recruiterId)); 
 		} 
@@ -187,7 +173,7 @@ public class RecruiterServiceImpl implements IRecruiterService {
 	 * 
 	 * @ResourseAccessException
 	 */
-	
+
 	@Override
 	public String createRecruiter(RecruiterTO recruiterTO) {
 		List<Recruiter> allRecruiterList = new ArrayList<Recruiter>();
@@ -203,7 +189,7 @@ public class RecruiterServiceImpl implements IRecruiterService {
 					} 
 				} 
 
-				
+
 			}
 			if(recruiterDaoImpl.createRecruiter(new Recruiter(recruiterTO.getRecruiterId(),recruiterTO.getRecruiterName(),recruiterTO.getRecruiterPhoneNo(),recruiterTO.getRecruiterEmail(),recruiterTO.getRecruiterEmailFlag(),recruiterTO.getRecruiterActive())))
 			{ 
@@ -216,7 +202,7 @@ public class RecruiterServiceImpl implements IRecruiterService {
 		return String.format(ParConstants.createUnSuccessfull + "for Recruiter : %s",recruiterTO.getRecruiterName());
 
 	}
-	
+
 	/*
 	 * Get the next Recruiter from the recruiter_seq
 	 * 

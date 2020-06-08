@@ -56,8 +56,8 @@ public class ExternalStaffController {
 	 * @ResoruceNotFoundException
 	 */
 	
-	@RequestMapping(value="/getActiveExtStaff",method=RequestMethod.GET)
-	public ResponseEntity<List<ExternalStaff>> getActiveExtStaff() throws ResourceNotFoundException{
+	@RequestMapping(value="/getActiveExtStaffs",method=RequestMethod.GET)
+	public ResponseEntity<List<ExternalStaff>> getActiveExtStaffs() throws ResourceNotFoundException{
 		return new ResponseEntity<List<ExternalStaff>>(externalStaffServiceImpl.getActiveExternalStaff(),HttpStatus.OK);		
 	}
 	

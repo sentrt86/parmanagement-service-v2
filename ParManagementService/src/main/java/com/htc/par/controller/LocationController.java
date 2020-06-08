@@ -40,6 +40,17 @@ public class LocationController {
 		return new ResponseEntity<List<Location>>(locationServiceimpl.getAllLocations(),HttpStatus.OK);		
 	}
 	
+	/*
+	 * Request handler to get all the active locations
+	 * 
+	 * @ResoruceNotFoundException
+	 */
+	
+	@RequestMapping(value="/getActiveLocations",method=RequestMethod.GET)
+	public ResponseEntity<List<Location>> getActiveLocations() throws ResourceNotFoundException{
+		return new ResponseEntity<List<Location>>(locationServiceimpl.getActiveLocations(),HttpStatus.OK);		
+	}
+	
 	
 	
 	@RequestMapping(value="/getNextLocationId",method=RequestMethod.GET)

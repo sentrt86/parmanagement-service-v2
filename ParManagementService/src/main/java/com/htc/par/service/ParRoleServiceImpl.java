@@ -46,6 +46,28 @@ public class ParRoleServiceImpl implements IParRoleService {
 
 		return parRole;
 	}
+	
+	/*
+	 * Request handler to GET all active Roles
+	 * 
+	 * @ResourseNotFoundException
+	 * @ResourceAccessException
+	 */
+
+	@Override
+	public List<ParRole> getActiveParRoles() throws ResourceNotFoundException {
+		List<ParRole> parRole = new ArrayList<ParRole> ();	
+		try {
+			parRole = parRoleDaoImpl.getActiveParRole();		
+		}catch(EmptyResultDataAccessException ex) {
+			throw new ResourceNotFoundException(ParConstants.dataNotFound);
+
+		}catch(DataAccessException ex){
+			throw new ResourceAccessException(ParConstants.databaseAccessIssue);			
+		}
+
+		return parRole;
+	}
 
 	/*
 	 * GET Roles by role id
@@ -156,7 +178,6 @@ public class ParRoleServiceImpl implements IParRoleService {
 	public String updateParRole(ParRoleTO parRoleTO) throws ResourceNotCreatedException, ResourceNotUpdatedException {
 		try { 			
 			boolean updateRoleSuccess = parRoleDaoImpl.updateParRole(new ParRole(parRoleTO.getRoleId(),parRoleTO.getRoleName(),parRoleTO.getRoleActive())); 
-
 			if(updateRoleSuccess) { 
 				return String.format(ParConstants.updateSuccessfull + "for Role : %s",parRoleTO.getRoleName()); 
 			}

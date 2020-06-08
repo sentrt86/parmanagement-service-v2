@@ -24,14 +24,14 @@ public class CandidateServiceImpl implements ICandidateService {
 
 	@Autowired
 	CandidateDAOImpl candidateDaoImpl;
-	
+
 	/*
 	 * Request handler to GET all candidate
 	 * 
 	 * @ResourseNotFoundException
 	 * @ResourceAccessException
 	 */
-	
+
 	@Override
 	public List<Candidate> getAllCandidate() {
 		List<Candidate> candidateList = new ArrayList<Candidate> ();		
@@ -54,7 +54,7 @@ public class CandidateServiceImpl implements ICandidateService {
 	 * 
 	 * @ResourceAccessException
 	 */
-	
+
 	@Override
 	public List<Candidate> getCandidateById(int candidateId) {
 		List<Candidate> candidateList = new ArrayList<Candidate> (); 
@@ -79,7 +79,7 @@ public class CandidateServiceImpl implements ICandidateService {
 	 * 
 	 * @ResourceAccessException
 	 */
-	
+
 	@Override
 	public List<Candidate> getActiveCandidate() {
 		List<Candidate> candidateList = new ArrayList<Candidate> ();		
@@ -94,7 +94,7 @@ public class CandidateServiceImpl implements ICandidateService {
 
 		return candidateList;
 	}
-	
+
 	/*
 	 * GET Candidate by candidate name
 	 * 
@@ -127,29 +127,14 @@ public class CandidateServiceImpl implements ICandidateService {
 	 * 
 	 * @ResourseAccessException
 	 */
-	
+
 	@Override
 	public String updateCandidate(CandidateTO candidateTO) {
 		try { 
-			List<Candidate> allCandidateList = new ArrayList<Candidate>();
-			allCandidateList = candidateDaoImpl.getAllCandidates();
-			if(!allCandidateList.isEmpty()) {
-				
-				for(Candidate data : allCandidateList) 
-				{ 
-					if (data.getCandidateName().equalsIgnoreCase(candidateTO.getCandidateName()) && data.getCandidatePhoneNum().equalsIgnoreCase(candidateTO.getCandidatePhoneNum())) 
-					{ 
-						throw new ResourceDuplicateException(String.format(ParConstants.duplicateFound + "for Candidate : %s",candidateTO.getCandidateName()));
-					} 
-				}
-				boolean updateCandidateSuccess = candidateDaoImpl.updateCandidate(new Candidate(candidateTO.getCandidateId(),candidateTO.getCandidateName(),candidateTO.getCandidatePhoneNum(),candidateTO.getCandidateEmailTxt(),candidateTO.getCandidateReceivedDate(),candidateTO.getCandidateActive(),candidateTO.getSkill())); 
-				
-				if(updateCandidateSuccess ) { 
-					return String.format(ParConstants.updateSuccessfull + "for Candidate: %s",candidateTO.getCandidateName()); 
-					}
+			boolean updateCandidateSuccess = candidateDaoImpl.updateCandidate(new Candidate(candidateTO.getCandidateId(),candidateTO.getCandidateName(),candidateTO.getCandidatePhoneNum(),candidateTO.getCandidateEmailTxt(),candidateTO.getCandidateReceivedDate(),candidateTO.getCandidateActive(),candidateTO.getSkill())); 
+			if(updateCandidateSuccess ) { 
+				return String.format(ParConstants.updateSuccessfull + "for Candidate: %s",candidateTO.getCandidateName()); 
 			}
-			
-			
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotUpdatedException(String.format(ParConstants.updateUnSuccessfull + "for Candidate : %s",candidateTO.getCandidateName())); 
 		}
@@ -157,7 +142,7 @@ public class CandidateServiceImpl implements ICandidateService {
 
 	}
 
-	
+
 	/*
 	 * Delete the Candidate for a give candidate id
 	 * 
@@ -165,14 +150,14 @@ public class CandidateServiceImpl implements ICandidateService {
 	 * 
 	 * @ResourseAccessException
 	 */
-	
+
 	@Override
 	public String deleteCandidate(int candidateId) {
 		try { 
 			boolean deleteCandidateSuccess = candidateDaoImpl.deleteCandidate(candidateId); 
 			if(deleteCandidateSuccess) { 
 				return String.format(ParConstants.deleteSuccessfull + "for Candidate Id: " + candidateId); 
-				}
+			}
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotDeletedException(String.format(ParConstants.deleteUnSuccessfull + "for Candidate  Id : " + candidateId)); 
 		} 
@@ -186,7 +171,7 @@ public class CandidateServiceImpl implements ICandidateService {
 	 * 
 	 * @ResourseAccessException
 	 */
-	
+
 	@Override
 	public String createCandidate(CandidateTO candidateTO) {
 		List<Candidate> allCandidateList = new ArrayList<Candidate>();
@@ -202,9 +187,9 @@ public class CandidateServiceImpl implements ICandidateService {
 					} 
 				} 
 
-				
+
 			}
-			
+
 			if(candidateDaoImpl.createCandidate(new Candidate(candidateTO.getCandidateId(),candidateTO.getCandidateName(),candidateTO.getCandidatePhoneNum(),candidateTO.getCandidateEmailTxt(),candidateTO.getCandidateReceivedDate(),candidateTO.getCandidateActive(),candidateTO.getSkill())))
 			{ 
 				return String.format(ParConstants.createSuccessfull + "for Candidate : %s",candidateTO.getCandidateName()); 
@@ -216,7 +201,7 @@ public class CandidateServiceImpl implements ICandidateService {
 		return String.format(ParConstants.createUnSuccessfull + "for Candidate : %s",candidateTO.getCandidateName());
 
 	}
-	
+
 	/*
 	 * Get the next candidate id from the cand_seq
 	 * 

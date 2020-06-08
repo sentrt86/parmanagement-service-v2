@@ -24,6 +24,12 @@ public class PrescreenerDAOImpl implements IPrescreenerDAO {
 	public List<Prescreener> getAllPrescreeners() {
 		return jdbcTemplate.query(ParSqlQueries.getAllPrescreenerQuery, new Object[] {}, new PrescreenerRowMapper());
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Prescreener> getActivePrescreener() {
+		return jdbcTemplate.query(ParSqlQueries.getAllPrescreenerQuery, new Object[] {}, new PrescreenerRowMapper());
+	}
 
 	@Override
 	public boolean createPrescreener(Prescreener prescreener) {
@@ -31,7 +37,7 @@ public class PrescreenerDAOImpl implements IPrescreenerDAO {
 		boolean prescreenerAdded = false;
 		Object[] parms = new Object[] {prescreener.getPreScreenerId(),prescreener.getPreScreenerName(),prescreener.getPreScreenerEmailId(),prescreener.getPreScreenercontactNo(),prescreener.getPreScreenerActive()};
 		int[] parmsType = new int[] {Types.INTEGER,Types.CHAR,Types.CHAR,Types.CHAR,Types.BOOLEAN};
-		int AddCount = jdbcTemplate.update(ParSqlQueries.addPrescreenerQuery,parms,parmsType);
+		int AddCount = jdbcTemplate.update(ParSqlQueries.createPrescreenerQuery,parms,parmsType);
 		if (AddCount > 0)
 		{
 			prescreenerAdded = true;

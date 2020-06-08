@@ -16,6 +16,7 @@ public interface IAreaService {
 	
 	
 	public List<Area>  getAllAreas() throws ResourceNotFoundException;
+	public List<Area>  getActiveAreas() throws ResourceNotFoundException;
 	public List<Area>  getAreaById(int areaId) throws ResourceNotFoundException;
 	public String deleteArea(int areaId) throws ResourceNotFoundException;
 	public String createArea(AreaTO areaTO) throws ResourceNotCreatedException;

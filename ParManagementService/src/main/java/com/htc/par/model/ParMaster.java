@@ -3,19 +3,26 @@ package com.htc.par.model;
 public class ParMaster {
 	
 	private int parId;
-	private int parNumber;
+	private String parNumber;
 	private String parDescriptionText;
 	private String parReceivedDate;
 	private String parStatus;
-	private String intentToFill;
+	private Boolean intentToFill;
+	private String  intentSentDate;
 	private Boolean emailSent;
 	private String  parComment;
+	private Area area;
+	private Skill skill;
+	private ParRole parRole;
+	private ExternalStaff externalStaff;
+	private Location location;
 	public ParMaster() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ParMaster(int parId, int parNumber, String parDescriptionText, String parReceivedDate, String parStatus,
-			String intentToFill, Boolean emailSent, String parComment) {
+	public ParMaster(int parId, String parNumber, String parDescriptionText, String parReceivedDate, String parStatus,
+			Boolean intentToFill, Boolean emailSent,String intentSentDate, String parComment, Area area, Skill skill, ParRole parRole,
+			ExternalStaff externalStaff, Location location) {
 		super();
 		this.parId = parId;
 		this.parNumber = parNumber;
@@ -25,6 +32,12 @@ public class ParMaster {
 		this.intentToFill = intentToFill;
 		this.emailSent = emailSent;
 		this.parComment = parComment;
+		this.area = area;
+		this.skill = skill;
+		this.parRole = parRole;
+		this.externalStaff = externalStaff;
+		this.location = location;
+		this.intentSentDate = intentSentDate;
 	}
 	public int getParId() {
 		return parId;
@@ -32,11 +45,11 @@ public class ParMaster {
 	public void setParId(int parId) {
 		this.parId = parId;
 	}
-	public int getParNumber() {
+	public String getParNumber() {
 		return parNumber;
 	}
-	public void setParNumber(int parNumber) {
-		this.parNumber = parNumber;
+	public void setParNumber(String string) {
+		this.parNumber = string;
 	}
 	public String getParDescriptionText() {
 		return parDescriptionText;
@@ -56,10 +69,10 @@ public class ParMaster {
 	public void setParStatus(String parStatus) {
 		this.parStatus = parStatus;
 	}
-	public String getIntentToFill() {
+	public Boolean getIntentToFill() {
 		return intentToFill;
 	}
-	public void setIntentToFill(String intentToFill) {
+	public void setIntentToFill(boolean intentToFill) {
 		this.intentToFill = intentToFill;
 	}
 	public Boolean getEmailSent() {
@@ -74,11 +87,51 @@ public class ParMaster {
 	public void setParComment(String parComment) {
 		this.parComment = parComment;
 	}
+	public Area getArea() {
+		return area;
+	}
+	public void setArea(Area area) {
+		this.area = area;
+	}
+	public Skill getSkill() {
+		return skill;
+	}
+	public void setSkill(Skill skill) {
+		this.skill = skill;
+	}
+	public ParRole getParRole() {
+		return parRole;
+	}
+	public void setParRole(ParRole parRole) {
+		this.parRole = parRole;
+	}
+	public ExternalStaff getExternalStaff() {
+		return externalStaff;
+	}
+	public void setExternalStaff(ExternalStaff externalStaff) {
+		this.externalStaff = externalStaff;
+	}
+	public Location getLocation() {
+		return location;
+	}
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+	
+	
+	public String getIntentSentDate() {
+		return intentSentDate;
+	}
+	public void setIntentSentDate(String intentSentDate) {
+		this.intentSentDate = intentSentDate;
+	}
 	@Override
 	public String toString() {
 		return "ParMaster [parId=" + parId + ", parNumber=" + parNumber + ", parDescriptionText=" + parDescriptionText
 				+ ", parReceivedDate=" + parReceivedDate + ", parStatus=" + parStatus + ", intentToFill=" + intentToFill
-				+ ", emailSent=" + emailSent + ", parComment=" + parComment + "]";
+				+ ", intentSentDate=" + intentSentDate + ", emailSent=" + emailSent + ", parComment=" + parComment
+				+ ", area=" + area + ", skill=" + skill + ", parRole=" + parRole + ", externalStaff=" + externalStaff
+				+ ", location=" + location + "]";
 	}
 	
 	

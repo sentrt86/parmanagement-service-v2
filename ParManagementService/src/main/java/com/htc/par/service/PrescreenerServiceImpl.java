@@ -42,6 +42,22 @@ public class PrescreenerServiceImpl implements IPrescreenerService {
 		return prescreenerlist;
 	}
 
+	// Get all the Prescreeners
+	@Override
+	public List<Prescreener> getActivePrescreeners() throws ResourceNotFoundException {
+		List<Prescreener> prescreenerlist = new ArrayList<Prescreener> ();		
+		try {
+			prescreenerlist = prescreenerDAOImpl.getActivePrescreener();		
+		}catch(EmptyResultDataAccessException ex) {
+			throw new ResourceNotFoundException(ParConstants.dataNotFound);
+
+		}catch(DataAccessException ex){
+			throw new ResourceAccessException(ParConstants.databaseAccessIssue);			
+		}
+
+		return prescreenerlist;
+	}
+
 	//delete the given prescreener ID
 	@Override
 	public String deletePrescreener(int prescreenerId) throws ResourceNotFoundException {
@@ -87,22 +103,10 @@ public class PrescreenerServiceImpl implements IPrescreenerService {
 
 	@Override
 	public String updatePrescreener(PrescreenerTO prescreenerTO) throws ResourceNotCreatedException, ResourceNotUpdatedException {
-		List<Prescreener> allPrescreenerList = new ArrayList<Prescreener> ();
 		try { 
-			allPrescreenerList = prescreenerDAOImpl.getAllPrescreeners();
-			if(!allPrescreenerList.isEmpty())
-			{
-				for(Prescreener data : allPrescreenerList) {
-					if(data.getPreScreenerName().equalsIgnoreCase(prescreenerTO.getPreScreenerName()) && data.getPreScreenercontactNo().equalsIgnoreCase(prescreenerTO.getPreScreenercontactNo()))
-					{
-						throw new ResourceDuplicateException(String.format(ParConstants.duplicateFound + "for Prescreener : %s",prescreenerTO.getPreScreenerName()));
-					}
-				}
-
-				boolean prescreenerUpdated = prescreenerDAOImpl.updatePrescreener(new Prescreener(prescreenerTO.getPreScreenerId(),prescreenerTO.getPreScreenerName(),prescreenerTO.getPreScreenerEmailId(),prescreenerTO.getPreScreenercontactNo(),prescreenerTO.getPreScreenerActive()));
-				if(prescreenerUpdated) {
-					return String.format(ParConstants.updateSuccessfull + "for Prescreener Name: "+ prescreenerTO.getPreScreenerName()); 
-				}
+			boolean prescreenerUpdated = prescreenerDAOImpl.updatePrescreener(new Prescreener(prescreenerTO.getPreScreenerId(),prescreenerTO.getPreScreenerName(),prescreenerTO.getPreScreenerEmailId(),prescreenerTO.getPreScreenercontactNo(),prescreenerTO.getPreScreenerActive()));
+			if(prescreenerUpdated) {
+				return String.format(ParConstants.updateSuccessfull + "for Prescreener Name: "+ prescreenerTO.getPreScreenerName()); 
 			}
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotDeletedException(String.format(ParConstants.updateUnSuccessfull + "for Prescreener Id :" + Integer.toString(prescreenerTO.getPreScreenerId()) +" and Prescreener Name: " + prescreenerTO.getPreScreenerName()));

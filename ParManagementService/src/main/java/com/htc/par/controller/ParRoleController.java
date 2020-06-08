@@ -40,6 +40,17 @@ public class ParRoleController {
 	}
 	
 	/*
+	 * Request handler to get all the active role
+	 * 
+	 * @ResoruceNotFoundException
+	 */
+	
+	@RequestMapping(value="/getActiveParRoles",method=RequestMethod.GET)
+	public ResponseEntity<List<ParRole>> getActiveParRoles() throws ResourceNotFoundException{
+		return new ResponseEntity<List<ParRole>>(parRoleServiceImpl.getActiveParRoles(),HttpStatus.OK);		
+	}
+	
+	/*
 	 * Request handler to get next role id 
 	 * 
 	 * @ResourceAccessException
@@ -53,7 +64,7 @@ public class ParRoleController {
 	
 	
 	/*
-	 * Request handler to get an Role by role id
+	 * Request handler to get an role by role id
 	 * 
 	 * @ResourceNotFoundException
 	 */
@@ -64,7 +75,7 @@ public class ParRoleController {
 	}
 	
 	/*
-	 * Request handler to delete an Role by role id
+	 * Request handler to delete an role by role id
 	 * 
 	 * @ResourceNotFoundException
 	 */
@@ -75,7 +86,7 @@ public class ParRoleController {
 	}
 	
 	/*
-	 * Request handler to update an Role by role id
+	 * Request handler to update an role by role id
 	 * 
 	 * @ResourceNotFoundException
 	 * @ResourceNotUpdatedException

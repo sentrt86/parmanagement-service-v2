@@ -110,24 +110,12 @@ public class UserRoleServiceImpl  implements IUserRoleService{
 
 	@Override
 	public String updateUserRole(UserRoleTO userRoleTO) throws ResourceNotFoundException, ResourceNotUpdatedException {
-		List<UserRole> allUserRoleList = new ArrayList<UserRole>();
 		try { 
-			allUserRoleList = userRoleDaoImpl.getAllUserRole(); 
-			if(!allUserRoleList.isEmpty()) {
-				for(UserRole data : allUserRoleList) 
-				{ 
-					if (data.getUserRoleName().equalsIgnoreCase(userRoleTO.getUserRoleName())) 
-					{ 
-						throw new ResourceDuplicateException(String.format(ParConstants.duplicateFound + "for User Role: %s",userRoleTO.getUserRoleName()));
-					} 
-				}
-				boolean updateUserRoleSuccess = userRoleDaoImpl.updateUserRole(new UserRole(userRoleTO.getUserRoleId(),userRoleTO.getUserRoleName())); 
+			boolean updateUserRoleSuccess = userRoleDaoImpl.updateUserRole(new UserRole(userRoleTO.getUserRoleId(),userRoleTO.getUserRoleName())); 
 
-				if(updateUserRoleSuccess) { 
-					return String.format(ParConstants.updateSuccessfull + "for User Role: %s",userRoleTO.getUserRoleName()); 
-				}
+			if(updateUserRoleSuccess) { 
+				return String.format(ParConstants.updateSuccessfull + "for User Role: %s",userRoleTO.getUserRoleName()); 
 			}
-			
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotUpdatedException(String.format(ParConstants.updateUnSuccessfull + "for User Role : %s",userRoleTO.getUserRoleName())); 
 		}
@@ -176,16 +164,12 @@ public class UserRoleServiceImpl  implements IUserRoleService{
 					{ 
 						throw new ResourceDuplicateException(String.format(ParConstants.duplicateFound + "for User Role: %s",userRoleTO.getUserRoleName()));
 					} 
-				} 
-
-				
-			}
-			
+				} 				
+			}			
 			if(userRoleDaoImpl.createUserRole(new UserRole(userRoleTO.getUserRoleId(),userRoleTO.getUserRoleName())))
 			{ 
 				return String.format(ParConstants.createSuccessfull + "for User Role : %s",userRoleTO.getUserRoleName()); 
 			} 
-
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotCreatedException(String.format(ParConstants.createUnSuccessfull + "for User Role : %s ",userRoleTO.getUserRoleName())); 
 		} 

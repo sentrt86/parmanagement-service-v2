@@ -29,8 +29,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	@ExceptionHandler(ResourceNotDeletedException.class)
-	public ResponseEntity<ResponseException> handleResourceNotDeletedException(HttpServletRequest httpServletRequest,
-			HttpStatus status, WebRequest request, ResourceNotDeletedException ex) {
+	public ResponseEntity<ResponseException> handleResourceNotDeletedException(WebRequest request, ResourceNotDeletedException ex) {
 		logger.error("PAR_Management_Service__API :: " 
 				+ " HttpStatus code: " + String.valueOf(HttpStatus.NOT_FOUND) + "exception :" + ex.toString());
 		ResponseException response = new ResponseException(new Date(),String.valueOf(HttpStatus.NOT_FOUND),ex.getMessage(),request.getDescription(false));

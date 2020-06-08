@@ -24,6 +24,14 @@ public class LocationDAOImpl implements ILocationDAO{
 		locations = jdbcTemplate.query(ParSqlQueries.getAllLocationsQuery, new Object[] {}, new LocationRowMapper());
 		return locations;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Location> getActiveLocation() {
+		List<Location> locations = new ArrayList<Location>();
+		locations = jdbcTemplate.query(ParSqlQueries.getAllLocationsQuery, new Object[] {}, new LocationRowMapper());
+		return locations;
+	}
 
 	@Override
 	public int getnextLocationId() {
@@ -35,7 +43,7 @@ public class LocationDAOImpl implements ILocationDAO{
 		boolean locationAdded = false;
 		Object[] parms = new Object[] {location.getLocationId(),location.getLocationName(),location.getLocationActive()};
 		int[] parmsType = new int[] {Types.INTEGER,Types.CHAR,Types.BOOLEAN};
-		int AddCount = jdbcTemplate.update(ParSqlQueries.addLocationQuery,parms,parmsType);
+		int AddCount = jdbcTemplate.update(ParSqlQueries.createLocationQuery,parms,parmsType);
 		if (AddCount > 0)
 		{
 			locationAdded = true;

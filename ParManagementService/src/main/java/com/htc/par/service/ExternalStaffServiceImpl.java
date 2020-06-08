@@ -24,14 +24,14 @@ public class ExternalStaffServiceImpl implements IExternalStaffService {
 
 	@Autowired
 	ExternalStaffDAOImpl externalStaffDaoImpl;
-	
+
 	/*
 	 * Request handler to GET all external Staff
 	 * 
 	 * @ResourseNotFoundException
 	 * @ResourceAccessException
 	 */
-	
+
 	@Override
 	public List<ExternalStaff> getAllExternalStaff() {
 		List<ExternalStaff> externalStaffList = new ArrayList<ExternalStaff> ();		
@@ -54,7 +54,7 @@ public class ExternalStaffServiceImpl implements IExternalStaffService {
 	 * 
 	 * @ResourceAccessException
 	 */
-	
+
 	@Override
 	public List<ExternalStaff> getExternalStaffById(int externalStaffId) {
 		List<ExternalStaff> externalStaffList = new ArrayList<ExternalStaff> (); 
@@ -79,7 +79,7 @@ public class ExternalStaffServiceImpl implements IExternalStaffService {
 	 * 
 	 * @ResourceAccessException
 	 */
-	
+
 	@Override
 	public List<ExternalStaff> getActiveExternalStaff() {
 		List<ExternalStaff> externalStaffList = new ArrayList<ExternalStaff> ();		
@@ -94,7 +94,7 @@ public class ExternalStaffServiceImpl implements IExternalStaffService {
 
 		return externalStaffList;
 	}
-	
+
 	/*
 	 * GET External Staff by external Staff name
 	 * 
@@ -127,28 +127,17 @@ public class ExternalStaffServiceImpl implements IExternalStaffService {
 	 * 
 	 * @ResourseAccessException
 	 */
-	
+
 	@Override
 	public String updateExternalStaff(ExternalStaffTO externalStaffTO) {
-		List<ExternalStaff> allExtStaffList = new ArrayList<ExternalStaff>();
 		try { 
-			allExtStaffList = externalStaffDaoImpl.getAllExternalStaff(); 
-			if(!allExtStaffList.isEmpty()) {
-				for(ExternalStaff data : allExtStaffList) 
-				{ 
-					if (data.getExtStaffName().equalsIgnoreCase(externalStaffTO.getExtStaffName())) 
-					{ 
-						throw new ResourceDuplicateException(String.format(ParConstants.duplicateFound + "for External Staff : %s",externalStaffTO.getExtStaffName()));
-					} 
-				} 
-				
-				boolean updateExtStaffSuccess = externalStaffDaoImpl.updateExternalStaff(new ExternalStaff(externalStaffTO.getExtStaffId(),externalStaffTO.getExtStaffName(),externalStaffTO.getArea(),externalStaffTO.getExtStaffActive())); 
-				
-				if(updateExtStaffSuccess ) { 
-					return String.format(ParConstants.updateSuccessfull + "for External Staff: %s",externalStaffTO.getExtStaffName()); 
-					}
+
+
+			boolean updateExtStaffSuccess = externalStaffDaoImpl.updateExternalStaff(new ExternalStaff(externalStaffTO.getExtStaffId(),externalStaffTO.getExtStaffName(),externalStaffTO.getArea(),externalStaffTO.getExtStaffActive())); 
+
+			if(updateExtStaffSuccess ) { 
+				return String.format(ParConstants.updateSuccessfull + "for External Staff: %s",externalStaffTO.getExtStaffName()); 
 			}
-			
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotUpdatedException(String.format(ParConstants.updateUnSuccessfull + "for External Staff : %s",externalStaffTO.getExtStaffName())); 
 		}
@@ -156,7 +145,7 @@ public class ExternalStaffServiceImpl implements IExternalStaffService {
 
 	}
 
-	
+
 	/*
 	 * Delete the External Staff for a give external Staff id
 	 * 
@@ -164,14 +153,14 @@ public class ExternalStaffServiceImpl implements IExternalStaffService {
 	 * 
 	 * @ResourseAccessException
 	 */
-	
+
 	@Override
 	public String deleteExternalStaff(int externalStaffId) {
 		try { 
 			boolean deleteExtStaffSuccess = externalStaffDaoImpl.deleteExternalStaff(externalStaffId); 
 			if(deleteExtStaffSuccess) { 
 				return String.format(ParConstants.deleteSuccessfull + "for External Staff Id: " + externalStaffId); 
-				}
+			}
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotDeletedException(String.format(ParConstants.deleteUnSuccessfull + "for External Staff  Id : " + externalStaffId)); 
 		} 
@@ -185,7 +174,7 @@ public class ExternalStaffServiceImpl implements IExternalStaffService {
 	 * 
 	 * @ResourseAccessException
 	 */
-	
+
 	@Override
 	public String createExternalStaff(ExternalStaffTO externalStaffTO) {
 		List<ExternalStaff> allExtStaffList = new ArrayList<ExternalStaff>();
@@ -214,7 +203,7 @@ public class ExternalStaffServiceImpl implements IExternalStaffService {
 		return String.format(ParConstants.createUnSuccessfull + "for External Staff : %s",externalStaffTO.getExtStaffName());
 
 	}
-	
+
 	/*
 	 * Get the next external Staff id from the ext_staff_seq
 	 * 

@@ -37,6 +37,17 @@ public class AreaController {
 	}
 	
 	/*
+	 * Request handler to get all the active areas
+	 * 
+	 * @ResoruceNotFoundException
+	 */
+	
+	@RequestMapping(value="/getActiveAreas",method=RequestMethod.GET)
+	public ResponseEntity<List<Area>> getActiveArea() throws ResourceNotFoundException{
+		return new ResponseEntity<List<Area>>(areaServiceImpl.getActiveAreas(),HttpStatus.OK);		
+	}
+	
+	/*
 	 * Request handler to get next area id 
 	 * 
 	 * @ResourceAccessException
@@ -91,7 +102,6 @@ public class AreaController {
 	
 	@RequestMapping(value="/createArea",method=RequestMethod.POST)
 	public ResponseEntity<String> createArea(@RequestBody @Valid AreaTO areaTO) throws ResourceNotCreatedException{
-		System.out.println("ser:"+areaTO.toString());
 		return new  ResponseEntity<String>(areaServiceImpl.createArea(areaTO),HttpStatus.OK);
 	}
 

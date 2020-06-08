@@ -47,6 +47,28 @@ public class AreaServiceImpl implements IAreaService {
 
 		return areaList;
 	}
+	
+	/*
+	 * Request handler to GET all active Areas
+	 * 
+	 * @ResourseNotFoundException
+	 * @ResourceAccessException
+	 */
+
+	@Override
+	public List<Area> getActiveAreas() throws ResourceNotFoundException {	
+		List<Area> areaList = new ArrayList<Area> ();		
+		try {
+			areaList = areaDaoImpl.getActiveArea();		
+		}catch(EmptyResultDataAccessException ex) {
+			throw new ResourceNotFoundException(ParConstants.dataNotFound);
+
+		}catch(DataAccessException ex){
+			throw new ResourceAccessException(ParConstants.databaseAccessIssue);			
+		}
+
+		return areaList;
+	}
 
 
 	/*
@@ -111,22 +133,10 @@ public class AreaServiceImpl implements IAreaService {
 
 	@Override 
 	public String updateArea(AreaTO areaTO) throws ResourceNotFoundException {
-		List<Area> allAreasList = new ArrayList<Area>();
 		try { 
-			allAreasList = areaDaoImpl.getAllAreas(); 
-			if(!allAreasList.isEmpty()) {
-				for(Area data : allAreasList) 
-				{ 
-					if (data.getAreaName().equalsIgnoreCase(areaTO.getAreaName())) 
-					{ 
-						throw new ResourceDuplicateException(String.format(ParConstants.duplicateFound + "for Area: %s",areaTO.getAreaName()));
-					} 
-				} 
-				boolean updateAreaSuccess = areaDaoImpl.updateArea(new Area(areaTO.getAreaId(),areaTO.getAreaName(),areaTO.getAreaActive())); 
-			
-				if(updateAreaSuccess) { 
-					return String.format(ParConstants.updateSuccessfull + "for Area: %s",areaTO.getAreaName()); 
-				}
+			boolean updateAreaSuccess = areaDaoImpl.updateArea(new Area(areaTO.getAreaId(),areaTO.getAreaName(),areaTO.getAreaActive())); 
+			if(updateAreaSuccess) { 
+				return String.format(ParConstants.updateSuccessfull + "for Area: %s",areaTO.getAreaName()); 
 			}
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotUpdatedException(String.format(ParConstants.updateUnSuccessfull + "for Area : %s",areaTO.getAreaName())); 

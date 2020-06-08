@@ -9,6 +9,7 @@ public interface IPrescreenerDAO {
 	boolean createPrescreener(Prescreener prescreener);
 	boolean updatePrescreener(Prescreener prescreener);
 	boolean deletePrescreener(int  prescreenerId);
+	List<Prescreener> getActivePrescreener();
 	
 
 }

@@ -15,6 +15,7 @@ public interface IPrescreenerService {
 	
 	
 	public List<Prescreener>  getAllPrescreeners() throws ResourceNotFoundException;
+	public List<Prescreener>  getActivePrescreeners() throws ResourceNotFoundException;
 	public int getNextPrescreenerId() throws ResourceNotFoundException;
 	public String deletePrescreener(int prescreenerId) throws ResourceNotFoundException;
 	public String createPrescreener(PrescreenerTO preScreenerTO) throws ResourceNotCreatedException;

@@ -15,6 +15,7 @@ import com.htc.par.to.SkillTO;
 public interface ISkillService {
 	
 	public List<Skill>  getAllSkills() throws ResourceNotFoundException;
+	public List<Skill>  getActiveSkills() throws ResourceNotFoundException;
 	public List<Skill>  getSkillById(int skillId) throws ResourceNotFoundException;
 	public String deleteSkill(int skillId) throws ResourceNotFoundException;
 	public String createSkill(SkillTO skillTO) throws ResourceNotCreatedException;

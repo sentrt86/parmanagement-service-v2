@@ -39,6 +39,18 @@ public class SkillController {
 		return new ResponseEntity<List<Skill>>(skillServiceImpl.getAllSkills(),HttpStatus.OK);		
 	}
 	
+	
+	/*
+	 * Request handler to get all the active skill
+	 * 
+	 * @ResoruceNotFoundException
+	 */
+	
+	@RequestMapping(value="/getActiveSkills",method=RequestMethod.GET)
+	public ResponseEntity<List<Skill>> getActiveSkill() throws ResourceNotFoundException{
+		return new ResponseEntity<List<Skill>>(skillServiceImpl.getActiveSkills(),HttpStatus.OK);		
+	}
+	
 	/*
 	 * Request handler to get next skill id 
 	 * 

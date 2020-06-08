@@ -15,6 +15,7 @@ import com.htc.par.to.ParRoleTO;
 public interface IParRoleService {
 	
 	public List<ParRole> getAllParRoles() throws ResourceNotFoundException;
+	public List<ParRole> getActiveParRoles() throws ResourceNotFoundException;
 	public List<ParRole> getParRoleById(int value) throws ResourceNotFoundException;
 	public String updateParRole(ParRoleTO parRoleTO) throws ResourceNotCreatedException, ResourceNotUpdatedException;;
 	public String deleteParRole(int roleId) throws ResourceNotFoundException;

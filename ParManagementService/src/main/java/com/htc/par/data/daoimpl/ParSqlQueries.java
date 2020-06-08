@@ -86,29 +86,44 @@ public class ParSqlQueries {
 	
 	// Prescreener Queries
     public static String getAllPrescreenerQuery             =   " SELECT PRE_SCR_ID,PRE_SCR_NM,PRE_SCR_EMAIL_TXT,PRE_SCR_PHN_NUM,PRE_SCR_ACTIVE FROM PRE_SCREENER";
-    public static String addPrescreenerQuery                =   " INSERT INTO PRE_SCREENER (PRE_SCR_ID,PRE_SCR_NM,PRE_SCR_EMAIL_TXT,PRE_SCR_PHN_NUM,PRE_SCR_ACTIVE) VALUES(?,?,?,?,?)";
+    public static String createPrescreenerQuery             =   " INSERT INTO PRE_SCREENER (PRE_SCR_ID,PRE_SCR_NM,PRE_SCR_EMAIL_TXT,PRE_SCR_PHN_NUM,PRE_SCR_ACTIVE) VALUES(?,?,?,?,?)";
     public static String updatePrescreenerQuery             =   " UPDATE PRE_SCREENER SET PRE_SCR_NM=?, PRE_SCR_EMAIL_TXT=?,PRE_SCR_PHN_NUM=?,PRE_SCR_ACTIVE=? WHERE PRE_SCR_ID=?";
     public static String deletePrescreenerQuery             =   " DELETE FROM PRE_SCREENER WHERE PRE_SCR_ID = ?";
+    public static String getActivePrescreenerQuery          =   " SELECT PRE_SCR_ID,PRE_SCR_NM,PRE_SCR_EMAIL_TXT,PRE_SCR_PHN_NUM,PRE_SCR_ACTIVE FROM  PRE_SCREENER WHERE PRE_SCR_ACTIVE = true";
     public static String getNextPrescreenerId               =   " SELECT NEXTVAL('PRE_SCR_SEQ')";
     
     
  // Location Queries
     public static String getAllLocationsQuery               =   " SELECT LOC_ID,LOC_NM,LOC_ACTIVE FROM LOCATION";
-    public static String addLocationQuery                   =   " INSERT INTO LOCATION(LOC_ID,LOC_NM,LOC_ACTIVE) VALUES(?,?,?)";
+    public static String createLocationQuery                =   " INSERT INTO LOCATION(LOC_ID,LOC_NM,LOC_ACTIVE) VALUES(?,?,?)";
     public static String updateLocationQuery                =   " UPDATE LOCATION SET LOC_NM =?, LOC_ACTIVE=? WHERE LOC_ID=?";
     public static String deleteLocationQuery                =   " DELETE FROM LOCATION WHERE LOC_ID = ?";
+    public static String getActiveLocationQuery             =   " SELECT LOC_ID,LOC_NM,LOC_ACTIVE FROM LOCATION WHERE LOC_ACTIVE = true";
     public static String getNextLocationId                  =   " SELECT NEXTVAL('LOC_SEQ')";
 
 // Par Master Queries
 	
-	public static String insertParMasterQuery               =   " INSERT INTO PAR_MSTR (PAR_ID,PAR_NUM,PAR_DESC_TXT,PAR_RCVD_DT,PAR_STTS,INTNT_TO_FIL,EMAIL_SENT,PAR_CMNT) VALUES (?,?,?,?,?,?,?,?)";
+	public static String createParMasterQuery               =   " INSERT INTO PAR_MSTR (PAR_ID,PAR_NUM,PAR_DESC_TXT,PAR_RCVD_DT,PAR_STTS,INTNT_TO_FIL,INTNT_SENT_DT,EMAIL_SENT,PAR_CMNT) VALUES (?,?,?,?,?,?,?,?,?)";
+	public static String getParMasterByParNumQuery          =   " SELECT PM.PAR_ID,PM.PAR_NUM,PM.PAR_DESC_TXT,PM.PAR_RCVD_TXT,PM.PAR_STTS_PM.INTNT_TO_FILL_IND,PM.INTNT_SENT_DT,PM.EMAIL_SENT,PM.PAR_CMMNT,A.AREA_ID,A.AREA_NM,S.SKILL_ID,S.SKILL_NM,PR.ROLE_ID,PR.ROLE_NM,E.EXT_STAFF_ID,E.EXT_STAFF_NM,L.LOC_ID,L.LOC_NM "
+															  + " FROM PAR_MSTR PR,PAR_RLTN PMR, AREA_LKUP A, SKILL_LKUP S, ROLE_LKUP PR, EXT_STAFF_LKUP E, LOCATION L "
+															  + " WHERE PR.PAR_NUM = PMR.PAR_CD "
+															  + " AND A.AREA_ID = PMR.AREA_CD "
+															  + " AND S.SKILL_ID = PMR.SKILL_CD "
+															  + " AND PR.ROLE_ID = PMR_ROLE_CD "
+															  + " AND L.LOC_ID = PMR.LOC_CD "
+															  + " AND E.EXT_STAFF_ID = PMR.EXT_STAFF_CD "
+															  + " AND PR.PAR_NUM = ?";
+	public static String getNextParSeqQuery                 =   " SELECT NEXTVAL('PAR_SEQ')";
+	public static String updateParMasterQuery               =   " UPDATE PAR_MSTR SET PAR_DESC_TXT = ?, PAR_RCVD_DT = ?, PAR_STTS = ? , INTNT_TO_FILL = ? , INTNT_SENT_DT = ?,EMAIL_SENT = ?, PAR_CMMNT = ? WHERE PAR_NUM = ? ";
+	public static String UpdateIntentToFillQuery            =   " UPDATE PAR_MSTR SET INTNT_TO_FILL = ? , INTNT_SENT_DT = ? WHERE PAR_NUM = ?";
 
 // Par Relation Queries
 	
-	public static String insertParRltnQuery                 =   " INSERT INTO PAR_RLTN (PAR_CD,ROLE_CD,SKILL_CD,AREA_CD,EXT_STAFF_CD) VALUES(?,?,?,?,?)";
+	public static String createParRltnQuery                 =   " INSERT INTO PAR_RLTN (PAR_CD,ROLE_CD,SKILL_CD,AREA_CD,EXT_STAFF_CD,LOC_CD) VALUES(?,?,?,?,?,?)";
+	public static String updateParRltnQuery                 =   " UPDATE PAR_RLTN SET ROLE_CD = ? , AREA_CD = ?,SKILL_CD = ?, EXT_STAFF_CD = ? , LOC_CD= ? WHERE PAR_CD = ?";
 
 // Par Allocation Queries
 	
-	public static String insertParAllocationQuery           =   " INSERT INTO PAR_ALLOCATION(PAR_ALLOC_ID,PAR_CD,RECRUIT_CD,PRE_SCR_CD,CAND_CD,PRE_SCR_DT,PRE_SCR_CMNT_TXT,SUBMIT_IND,SUBMIT_DT,OFFER_RECVD_IND,EXPT_START_DT,ACTUAL_START_DT) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)_";
+	public static String createParAllocationQuery           =   " INSERT INTO PAR_ALLOCATION(PAR_ALLOC_ID,PAR_CD,RECRUIT_CD,PRE_SCR_CD,CAND_CD,PRE_SCR_DT,PRE_SCR_CMNT_TXT,SUBMIT_IND,SUBMIT_DT,OFFER_RECVD_IND,EXPT_START_DT,ACTUAL_START_DT) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)_";
 
 }

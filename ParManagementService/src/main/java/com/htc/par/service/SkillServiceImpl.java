@@ -22,17 +22,17 @@ import com.htc.par.to.SkillTO;
 @Service
 public class SkillServiceImpl implements ISkillService {
 
-	
+
 	@Autowired
 	SkillDAOImpl skillDaoImpl;
-	
+
 	/*
 	 * Request handler to GET all Skill
 	 * 
 	 * @ResourseNotFoundException
 	 * @ResourceAccessException
 	 */
-	
+
 	@Override
 	public List<Skill> getAllSkills() throws ResourceNotFoundException {
 		List<Skill> skillList = new ArrayList<Skill> ();		
@@ -47,7 +47,29 @@ public class SkillServiceImpl implements ISkillService {
 
 		return skillList;
 	}
-	
+
+	/*
+	 * Request handler to GET all active Skill
+	 * 
+	 * @ResourseNotFoundException
+	 * @ResourceAccessException
+	 */
+
+	@Override
+	public List<Skill> getActiveSkills() throws ResourceNotFoundException {
+		List<Skill> skillList = new ArrayList<Skill> ();		
+		try {
+			skillList = skillDaoImpl.getActiveSkill();		
+		}catch(EmptyResultDataAccessException ex) {
+			throw new ResourceNotFoundException(ParConstants.dataNotFound);
+
+		}catch(DataAccessException ex){
+			throw new ResourceAccessException(ParConstants.databaseAccessIssue);			
+		}
+
+		return skillList;
+	}
+
 	/*
 	 * GET Skills by skill id
 	 * 
@@ -80,14 +102,14 @@ public class SkillServiceImpl implements ISkillService {
 	 * 
 	 * @ResourseAccessException
 	 */
-	
+
 	@Override
 	public String deleteSkill(int skillId) throws ResourceNotFoundException {
 		try { 
 			boolean deleteSkillSuccess = skillDaoImpl.deleteSkill(skillId); 
 			if(deleteSkillSuccess) { 
 				return String.format(ParConstants.deleteSuccessfull + "for Area Id: " + skillId); 
-				}
+			}
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotDeletedException(String.format(ParConstants.deleteUnSuccessfull + "for Area  Id : " + skillId)); 
 		} 
@@ -101,7 +123,7 @@ public class SkillServiceImpl implements ISkillService {
 	 * 
 	 * @ResourseAccessException
 	 */
-	
+
 	@Override
 	public String createSkill(SkillTO skillTO) throws ResourceNotCreatedException {
 		List<Skill> allSkillsList = new ArrayList<Skill>();
@@ -117,9 +139,9 @@ public class SkillServiceImpl implements ISkillService {
 					} 
 				} 
 
-				
+
 			}
-			
+
 			if(skillDaoImpl.createSkill(new Skill(skillTO.getSkillId(),skillTO.getSkillName(),skillTO.getSkillActive())))
 			{ 
 				return String.format(ParConstants.createSuccessfull + "for Skill : %s",skillTO.getSkillName()); 
@@ -130,7 +152,7 @@ public class SkillServiceImpl implements ISkillService {
 		} 
 		return String.format(ParConstants.createUnSuccessfull + "for Skill : %s",skillTO.getSkillName());
 	}
-	
+
 	/*
 	 * Update the Skill information
 	 * 
@@ -141,25 +163,12 @@ public class SkillServiceImpl implements ISkillService {
 
 	@Override
 	public String updateSkill(SkillTO skillTO) throws ResourceNotCreatedException, ResourceNotUpdatedException {
-		List<Skill> allSkillsList = new ArrayList<Skill>();
-		try { 
-			allSkillsList = skillDaoImpl.getAllSkills(); 
-			if(!allSkillsList.isEmpty()) {
-				for(Skill data : allSkillsList) 
-				{ 
-					if (data.getSkillName().equalsIgnoreCase(skillTO.getSkillName())) 
-					{ 
-						throw new ResourceDuplicateException(String.format(ParConstants.duplicateFound + "for Skill: %s",skillTO.getSkillName()));
-					} 
-				}
-				
-				boolean updateSkillSuccess = skillDaoImpl.updateSkill(new Skill(skillTO.getSkillId(),skillTO.getSkillName(),skillTO.getSkillActive())); 
+		try { 	
+			boolean updateSkillSuccess = skillDaoImpl.updateSkill(new Skill(skillTO.getSkillId(),skillTO.getSkillName(),skillTO.getSkillActive())); 
 
-				if(updateSkillSuccess) { 
-					return String.format(ParConstants.updateSuccessfull + "for Skill: %s",skillTO.getSkillName()); 
-				}
+			if(updateSkillSuccess) { 
+				return String.format(ParConstants.updateSuccessfull + "for Skill: %s",skillTO.getSkillName()); 
 			}
-			
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotUpdatedException(String.format(ParConstants.updateUnSuccessfull + "for Skill : %s",skillTO.getSkillName())); 
 		}
@@ -171,7 +180,7 @@ public class SkillServiceImpl implements ISkillService {
 	 * 
 	 * @ResourseAccessException
 	 */
-	
+
 	@Override
 	public int getNextSkillId() throws ResourceAccessException {
 		try {

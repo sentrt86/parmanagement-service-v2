@@ -14,6 +14,7 @@ import com.htc.par.to.LocationTO;
 public interface ILocationService {
 	
 	public List<Location>  getAllLocations() throws ResourceNotFoundException;
+	public List<Location>  getActiveLocations() throws ResourceNotFoundException;
 	public int getNextLocationId() throws ResourceNotFoundException;
 	public String deleteLocation(int locationId) throws ResourceNotFoundException;
 	public String createLocation(LocationTO locationTO) throws ResourceNotCreatedException;
