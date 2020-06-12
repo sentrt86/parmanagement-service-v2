@@ -9,7 +9,7 @@ public interface IParMasterDAO {
 	Boolean createParMaster(ParMaster parmaster);
 	Boolean createParMasterRltn(ParMaster parmaster);
 	List<ParMaster>  getParMasterByParNum(String parNum);
-	Boolean updateIntentToFill(String parNum,Boolean intentToFill,String intentSentDate);
+	Boolean updateIntentToFill(int parId,Boolean intentToFill,String intentSentDate);
 	int getNextParSeqId();
 	
 

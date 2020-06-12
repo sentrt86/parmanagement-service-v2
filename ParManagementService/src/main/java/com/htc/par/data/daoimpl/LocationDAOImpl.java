@@ -29,7 +29,7 @@ public class LocationDAOImpl implements ILocationDAO{
 	@Override
 	public List<Location> getActiveLocation() {
 		List<Location> locations = new ArrayList<Location>();
-		locations = jdbcTemplate.query(ParSqlQueries.getAllLocationsQuery, new Object[] {}, new LocationRowMapper());
+		locations = jdbcTemplate.query(ParSqlQueries.getActiveLocationQuery, new Object[] {}, new LocationRowMapper());
 		return locations;
 	}
 

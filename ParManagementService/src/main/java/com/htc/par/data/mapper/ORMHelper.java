@@ -19,8 +19,13 @@ public class ORMHelper {
 	}
 	
 	public static String convertDateToString(ResultSet rs,String columnLable) throws SQLException {
+		String date = " ";
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-		return df.format(rs.getDate(columnLable));
+		if (rs.getDate(columnLable) != null) {
+		   date = df.format(rs.getDate(columnLable));
+		}
+		
+		return date;
 		
 	}
 

@@ -13,7 +13,7 @@ import com.htc.par.model.ParMaster;
 public interface IParMasterService {
 	
 	String createParMaster(ParMaster parmaster) throws ResourceNotCreatedException;
-	String updateIntentToFill(String parNum,Boolean intentToFill,String intentSentDate) throws ResourceNotFoundException;
+	String updateIntentToFill(int parId,String parNum,Boolean intentToFill,String intentSentDate) throws ResourceNotFoundException;
 	Boolean createParMasterRltn(ParMaster parmaster) throws ResourceNotCreatedException;
 	List<ParMaster> getParMasterByParNum(String parNum) throws ResourceNotFoundException;
 	int getNextParSeqId() throws ResourceAccessException;

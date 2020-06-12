@@ -29,9 +29,9 @@ public class ParMasterRowMapper implements RowMapper {
 		area.setAreaName(rs.getString("AREA_NM"));
 		area.setAreaActive(rs.getBoolean("AREA_ACTIVE"));
 		
-		skill.setSkillId(rs.getInt("Skill_ID"));
-		skill.setSkillName(rs.getString("Skill_NM"));
-		skill.setSkillActive(rs.getBoolean("Skill_ACTIVE"));		
+		skill.setSkillId(rs.getInt("SKILL_ID"));
+		skill.setSkillName(rs.getString("SKILL_NM"));
+		skill.setSkillActive(rs.getBoolean("SKILL_ACTIVE"));		
 		
 		role.setRoleId(rs.getInt("ROLE_ID"));
 		role.setRoleName(rs.getString("ROLE_NM"));

@@ -103,19 +103,19 @@ public class ParSqlQueries {
 
 // Par Master Queries
 	
-	public static String createParMasterQuery               =   " INSERT INTO PAR_MSTR (PAR_ID,PAR_NUM,PAR_DESC_TXT,PAR_RCVD_DT,PAR_STTS,INTNT_TO_FIL,INTNT_SENT_DT,EMAIL_SENT,PAR_CMNT) VALUES (?,?,?,?,?,?,?,?,?)";
-	public static String getParMasterByParNumQuery          =   " SELECT PM.PAR_ID,PM.PAR_NUM,PM.PAR_DESC_TXT,PM.PAR_RCVD_TXT,PM.PAR_STTS_PM.INTNT_TO_FILL_IND,PM.INTNT_SENT_DT,PM.EMAIL_SENT,PM.PAR_CMMNT,A.AREA_ID,A.AREA_NM,S.SKILL_ID,S.SKILL_NM,PR.ROLE_ID,PR.ROLE_NM,E.EXT_STAFF_ID,E.EXT_STAFF_NM,L.LOC_ID,L.LOC_NM "
-															  + " FROM PAR_MSTR PR,PAR_RLTN PMR, AREA_LKUP A, SKILL_LKUP S, ROLE_LKUP PR, EXT_STAFF_LKUP E, LOCATION L "
-															  + " WHERE PR.PAR_NUM = PMR.PAR_CD "
+	public static String createParMasterQuery               =   " INSERT INTO PAR_MSTR (PAR_ID,PAR_NUM,PAR_DESC_TXT,PAR_RCVD_DT,PAR_STTS) VALUES (?,?,?,?,?)";
+	public static String getParMasterByParNumQuery          =   " SELECT PM.PAR_ID,PM.PAR_NUM,PM.PAR_DESC_TXT,PM.PAR_RCVD_DT,PM.PAR_STTS,PM.INTNT_TO_FIL_IND,PM.INTNT_SENT_DT,PM.EMAIL_SENT,PM.PAR_CMMNT,A.AREA_ID,A.AREA_NM,A.AREA_ACTIVE,S.SKILL_ID,S.SKILL_NM,S.SKILL_ACTIVE,PR.ROLE_ID,PR.ROLE_NM,PR.ROLE_ACTIVE,E.EXT_STAFF_ID,E.EXT_STAFF_NM,E.EXT_STAFF_ACTIVE,L.LOC_ID,L.LOC_NM,L.LOC_ACTIVE "
+															  + " FROM PAR_MSTR PM,PAR_RLTN PMR, AREA_LKUP A, SKILL_LKUP S, ROLE_LKUP PR, EXT_STAFF_LKUP E, LOCATION L "
+															  + " WHERE PM.PAR_ID = PMR.PAR_CD "
 															  + " AND A.AREA_ID = PMR.AREA_CD "
 															  + " AND S.SKILL_ID = PMR.SKILL_CD "
-															  + " AND PR.ROLE_ID = PMR_ROLE_CD "
+															  + " AND PR.ROLE_ID = PMR.ROLE_CD "
 															  + " AND L.LOC_ID = PMR.LOC_CD "
 															  + " AND E.EXT_STAFF_ID = PMR.EXT_STAFF_CD "
-															  + " AND PR.PAR_NUM = ?";
+															  + " AND PM.PAR_NUM = ?";
 	public static String getNextParSeqQuery                 =   " SELECT NEXTVAL('PAR_SEQ')";
-	public static String updateParMasterQuery               =   " UPDATE PAR_MSTR SET PAR_DESC_TXT = ?, PAR_RCVD_DT = ?, PAR_STTS = ? , INTNT_TO_FILL = ? , INTNT_SENT_DT = ?,EMAIL_SENT = ?, PAR_CMMNT = ? WHERE PAR_NUM = ? ";
-	public static String UpdateIntentToFillQuery            =   " UPDATE PAR_MSTR SET INTNT_TO_FILL = ? , INTNT_SENT_DT = ? WHERE PAR_NUM = ?";
+	public static String updateParMasterQuery               =   " UPDATE PAR_MSTR SET PAR_DESC_TXT = ?, PAR_RCVD_DT = ?, PAR_STTS = ? , INTNT_TO_FILL_IND = ? , INTNT_SENT_DT = ?,EMAIL_SENT = ?, PAR_CMMNT = ? WHERE PAR_NUM = ? ";
+	public static String UpdateIntentToFillQuery            =   " UPDATE PAR_MSTR SET INTNT_TO_FIL_IND = ? , INTNT_SENT_DT = ? WHERE PAR_ID = ?";
 
 // Par Relation Queries
 	

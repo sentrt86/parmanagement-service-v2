@@ -18,6 +18,7 @@ import com.htc.par.model.ParMaster;
 import com.htc.par.service.ParMasterServiceImpl;
 
 @RestController
+@RequestMapping("/par/parmaster")
 public class ParMasterController {
 	
 	@Autowired
@@ -55,8 +56,9 @@ public class ParMasterController {
 	 * @ResourceNotFoundException
 	 */
 	
-	@RequestMapping(value="/getParMasterByParNum/{parNum}",method=RequestMethod.POST)
+	@RequestMapping(value="/getParMasterByParNum/{parNum}",method=RequestMethod.GET)
 	public ResponseEntity<List<ParMaster>> getParMasterByParNum(@PathVariable("parNum") String parNum) throws ResourceNotCreatedException{
+		System.out.println("Par no:"+parNum);
 		return new  ResponseEntity<List<ParMaster>>(parMasterServiceImpl.getParMasterByParNum(parNum),HttpStatus.OK);
 	}
 	
@@ -66,9 +68,9 @@ public class ParMasterController {
 	 * @ResourceNotFoundException
 	 */
 	
-	@RequestMapping(value="/updateIntentToFill/{parNum}/{intentToFill}/{intentSentDate}",method=RequestMethod.POST)
-	public ResponseEntity<String> getParMasterByParNum(@PathVariable("parNum") String parNum,@PathVariable("intentToFill") Boolean intentToFill,@PathVariable("intentSentDate") String intentSentDate) throws ResourceNotCreatedException{
-		return new  ResponseEntity<String>(parMasterServiceImpl.updateIntentToFill(parNum,intentToFill,intentSentDate),HttpStatus.OK);
+	@RequestMapping(value="/updateIntentToFill",method=RequestMethod.POST)
+	public ResponseEntity<String> updateIntentToFill(@RequestBody @Valid ParMaster parmaster) throws ResourceNotCreatedException{
+		return new  ResponseEntity<String>(parMasterServiceImpl.updateIntentToFill(parmaster.getParId(),parmaster.getParNumber(),parmaster.getIntentToFill(),parmaster.getIntentSentDate()),HttpStatus.OK);
 	}
 
 }

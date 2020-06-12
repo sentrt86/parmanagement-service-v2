@@ -26,14 +26,11 @@ public class ParMasterServiceImpl  implements IParMasterService{
 	public String createParMaster(ParMaster parmaster)  throws ResourceNotCreatedException{
 		try {
 			List<ParMaster> parMasterList = parMasterDaoImpl.getParMasterByParNum(parmaster.getParNumber());
-			if(!parMasterList.isEmpty())
+			if(parMasterList.isEmpty())
 			{
 				if(parMasterDaoImpl.createParMaster(parmaster))
 				{
-					if(this.createParMasterRltn(parmaster))
-					{
-						return String.format(ParConstants.createSuccessfull + "for Par Number : %s",parmaster.getParNumber());
-					}	
+					return String.format(ParConstants.createSuccessfull + "for Par Number : %s",parmaster.getParNumber());
 				}
 			}
 			else
@@ -68,9 +65,6 @@ public class ParMasterServiceImpl  implements IParMasterService{
 		List<ParMaster> parmasterList = new ArrayList<ParMaster> (); 
 		try {
 			parmasterList = parMasterDaoImpl.getParMasterByParNum(parNum);
-			if(parmasterList.isEmpty()) {
-				throw new ResourceNotFoundException(String.format(ParConstants.dataNotFound + "for Par Number : %S",parNum));	
-			}
 		}catch(EmptyResultDataAccessException ex) {
 			throw new ResourceNotFoundException(String.format(ParConstants.dataNotFound + "for ParMaster Number : %S",parNum));	
 		}catch(DataAccessException ex) { 
@@ -81,10 +75,14 @@ public class ParMasterServiceImpl  implements IParMasterService{
 	}
 
 	@Override
-	public String updateIntentToFill(String parNum, Boolean intentToFill, String intentSentDate)
+	public String updateIntentToFill(int parId,String parNum, Boolean intentToFill, String intentSentDate)
 			throws ResourceNotFoundException {
 		try {
-			parMasterDaoImpl.updateIntentToFill(parNum, intentToFill, intentSentDate);
+			boolean updateParmaster = parMasterDaoImpl.updateIntentToFill(parId, intentToFill, intentSentDate);
+			if (updateParmaster)
+			{
+				return String.format(ParConstants.updateSuccessfull + "for Par Master: %s",parNum);
+			}
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotFoundException(String.format(ParConstants.dataNotFound + "for Par Master Number : %S",parNum));
 		}
