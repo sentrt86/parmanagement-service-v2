@@ -34,7 +34,7 @@ public class RecruiterDAOImpl implements IRecruiterDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Recruiter> getActiveRecruiter() {
-		return jdbcTemplate.query(ParSqlQueries.getactiveRecruiter,new Object[]{}, new RecruiterRowMapper());		
+		return jdbcTemplate.query(ParSqlQueries.getActiveRecruiterQuery,new Object[]{}, new RecruiterRowMapper());		
 	}
 
 	// Get recruiter from the recruiter table for a given recruiter name

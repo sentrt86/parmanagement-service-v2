@@ -1,47 +1,65 @@
 package com.htc.par.service;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-
 import com.htc.par.constants.ParConstants;
 import com.htc.par.data.daoimpl.ParMasterDAOImpl;
 import com.htc.par.exceptions.ResourceAccessException;
 import com.htc.par.exceptions.ResourceDuplicateException;
 import com.htc.par.exceptions.ResourceNotCreatedException;
+import com.htc.par.exceptions.ResourceNotDeletedException;
 import com.htc.par.exceptions.ResourceNotFoundException;
+import com.htc.par.exceptions.ResourceNotUpdatedException;
 import com.htc.par.model.ParMaster;
 
+
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
+@Transactional
 public class ParMasterServiceImpl  implements IParMasterService{
 
 	@Autowired
 	ParMasterDAOImpl parMasterDaoImpl;
-	
+
 	@Override
 	public String createParMaster(ParMaster parmaster)  throws ResourceNotCreatedException{
 		try {
-			List<ParMaster> parMasterList = parMasterDaoImpl.getParMasterByParNum(parmaster.getParNumber());
-			if(parMasterList.isEmpty())
-			{
-				if(parMasterDaoImpl.createParMaster(parmaster))
-				{
-					return String.format(ParConstants.createSuccessfull + "for Par Number : %s",parmaster.getParNumber());
-				}
-			}
-			else
+			
+			ParMaster parMaster = parMasterDaoImpl.getParMasterByParNum(parmaster.getParNumber());
+			
+			if(parMaster.getParNumber().equalsIgnoreCase(parmaster.getParNumber()))
 			{
 				throw new ResourceDuplicateException(String.format(ParConstants.duplicateFound + "for Par Number : %s",parmaster.getParNumber()));
 			}
-			
+
+		}catch(EmptyResultDataAccessException e) {
+			if(parMasterDaoImpl.createParMaster(parmaster))
+			{
+				return String.format(ParConstants.createSuccessfull + "for Par Number : %s",parmaster.getParNumber());
+			}			
 		}catch(DataAccessException e) {
 			throw new ResourceAccessException(ParConstants.databaseAccessIssue);
 		}
 		return String.format(ParConstants.createUnSuccessfull + "for Par Number : %s",parmaster.getParNumber());
+	}
+	
+	
+	@Override
+	public String updateParMaster(ParMaster parmaster) throws ResourceNotUpdatedException{
+		
+		try {
+			if(parMasterDaoImpl.updateParMaster(parmaster)) {
+				return String.format(ParConstants.updateSuccessfull + "for Par Master: %s",parmaster.getParNumber());
+			}
+		}catch(DataAccessException ex){ 
+			throw new ResourceAccessException(ParConstants.databaseAccessIssue); }
+		
+		return String.format(ParConstants.updateUnSuccessfull + "for Par Master: %s",parmaster.getParNumber());
 	}
 
 	@Override
@@ -61,22 +79,21 @@ public class ParMasterServiceImpl  implements IParMasterService{
 	}
 
 	@Override
-	public List<ParMaster> getParMasterByParNum(String parNum) throws ResourceNotFoundException {
-		List<ParMaster> parmasterList = new ArrayList<ParMaster> (); 
+	public ParMaster getParMasterByParNum(String parNum) throws ResourceNotFoundException {
+		ParMaster parMaster = null; 
 		try {
-			parmasterList = parMasterDaoImpl.getParMasterByParNum(parNum);
+			parMaster = parMasterDaoImpl.getParMasterByParNum(parNum);
 		}catch(EmptyResultDataAccessException ex) {
-			throw new ResourceNotFoundException(String.format(ParConstants.dataNotFound + "for ParMaster Number : %S",parNum));	
+			parMaster = null;
 		}catch(DataAccessException ex) { 
 			throw new ResourceAccessException(ParConstants.databaseAccessIssue); 
 		}
 
-		return parmasterList;
+		return parMaster;
 	}
 
 	@Override
-	public String updateIntentToFill(int parId,String parNum, Boolean intentToFill, String intentSentDate)
-			throws ResourceNotFoundException {
+	public String updateIntentToFill(int parId,String parNum, Boolean intentToFill, String intentSentDate) throws ResourceNotFoundException {
 		try {
 			boolean updateParmaster = parMasterDaoImpl.updateIntentToFill(parId, intentToFill, intentSentDate);
 			if (updateParmaster)
@@ -86,7 +103,43 @@ public class ParMasterServiceImpl  implements IParMasterService{
 		}catch(DataAccessException ex) { 
 			throw new ResourceNotFoundException(String.format(ParConstants.dataNotFound + "for Par Master Number : %S",parNum));
 		}
-		return null;
+		return String.format(ParConstants.updateUnSuccessfull + "for Par Master: %s",parNum);
 	}
+
+
+	@Override
+	public String deleteParMaster(int parNo) throws ResourceNotFoundException {
+		try { 
+			boolean deleteParMaster = parMasterDaoImpl.deleteParMaster(parNo);
+			if(deleteParMaster) 
+			{ 
+				return String.format(ParConstants.deleteSuccessfull + "for Par Master : " + parNo); 
+			}
+		}catch(DataAccessException ex) { 
+			throw new ResourceNotDeletedException(String.format(ParConstants.deleteUnSuccessfull + "for Par Master : " + parNo)); 
+		} 
+		return String.format(ParConstants.deleteUnSuccessfull + "for Par Master : %s", parNo); 
+	}
+
+
+	@Override
+	public String updateEmailSent(ParMaster parmaster) throws ResourceNotFoundException {
+		try {
+			boolean updateParmaster = parMasterDaoImpl.updateEmailSent(parmaster);
+			if (updateParmaster)
+			{
+				return String.format(ParConstants.emailSuccessfull);
+			}
+		}catch(DataAccessException ex) { 
+			throw new ResourceAccessException(ParConstants.databaseAccessIssue);
+		}
+		return String.format(ParConstants.emailUnSuccessfull);
+	}
+
+	
+
+	
+
+	
 
 }

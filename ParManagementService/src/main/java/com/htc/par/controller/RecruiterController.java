@@ -57,7 +57,7 @@ public class RecruiterController {
 	 * @ResoruceNotFoundException
 	 */
 	
-	@RequestMapping(value="/getActiveRecruiter",method=RequestMethod.GET)
+	@RequestMapping(value="/getActiveRecruiters",method=RequestMethod.GET)
 	public ResponseEntity<List<Recruiter>> getActiveRecruiter() throws ResourceNotFoundException{
 		return new ResponseEntity<List<Recruiter>>(recruiterServiceImpl.getActiveRecruiter(),HttpStatus.OK);		
 	}

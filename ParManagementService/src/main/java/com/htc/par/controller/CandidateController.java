@@ -56,7 +56,7 @@ public class CandidateController {
 	 * @ResoruceNotFoundException
 	 */
 	
-	@RequestMapping(value="/getActiveCandidate",method=RequestMethod.GET)
+	@RequestMapping(value="/getActiveCandidates",method=RequestMethod.GET)
 	public ResponseEntity<List<Candidate>> getActiveCandidate() throws ResourceNotFoundException{
 		return new ResponseEntity<List<Candidate>>(candidateServiceImpl.getActiveCandidate(),HttpStatus.OK);		
 	}

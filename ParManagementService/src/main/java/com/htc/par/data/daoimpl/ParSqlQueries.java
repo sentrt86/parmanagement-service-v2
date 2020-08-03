@@ -51,9 +51,10 @@ public class ParSqlQueries {
 	public static String deleteRecruiter                   = "DELETE FROM RECRUITER WHERE RECRUIT_ID = ?";
 	public static String updateRecruiter                   = "UPDATE RECRUITER SET RECRUIT_NM = ? ,RECRUIT_PHN_NUM = ?, RECRUIT_EMAIL_TXT = ?,RECRUIT_EMAIL_FLAG = ?,RECRUIT_ACTIVE = ? WHERE RECRUIT_ID = ?";
 	public static String createRecruiter                   = "INSERT INTO RECRUITER (RECRUIT_ID,RECRUIT_NM,RECRUIT_PHN_NUM,RECRUIT_EMAIL_TXT,RECRUIT_EMAIL_FLAG,RECRUIT_ACTIVE) VALUES(?,?,?,?,?,?)";
-    public static String getactiveRecruiter                = "SELECT RECRUIT_ID,RECRUIT_NM,RECRUIT_PHN_NUM,RECRUIT_EMAIL_TXT,RECRUIT_EMAIL_FLAG,RECRUIT_ACTIVE FROM RECRUITER WHERE RECRUIT_ACTIVE = true";
+    public static String getActiveRecruiterQuery           = "SELECT RECRUIT_ID,RECRUIT_NM,RECRUIT_PHN_NUM,RECRUIT_EMAIL_TXT,RECRUIT_EMAIL_FLAG,RECRUIT_ACTIVE FROM RECRUITER WHERE RECRUIT_ACTIVE = true";
     public static String getNextRecruiterId                = "SELECT NEXTVAL('RECRUIT_SEQ')";
     public static String getRecruiterByName                = "SELECT RECRUIT_ID,RECRUIT_NM,RECRUIT_PHN_NUM,RECRUIT_EMAIL_TXT,RECRUIT_EMAIL_FLAG,RECRUIT_ACTIVE FROM RECRUITER WHERE RECRUIT_NM = ?";
+   
     
 //  User Role Queries
 	public static String getAllUserRoleQuery               = "SELECT USER_ROLE_ID,USER_ROLE_NM FROM USER_ROLE";
@@ -114,16 +115,47 @@ public class ParSqlQueries {
 															  + " AND E.EXT_STAFF_ID = PMR.EXT_STAFF_CD "
 															  + " AND PM.PAR_NUM = ?";
 	public static String getNextParSeqQuery                 =   " SELECT NEXTVAL('PAR_SEQ')";
-	public static String updateParMasterQuery               =   " UPDATE PAR_MSTR SET PAR_DESC_TXT = ?, PAR_RCVD_DT = ?, PAR_STTS = ? , INTNT_TO_FILL_IND = ? , INTNT_SENT_DT = ?,EMAIL_SENT = ?, PAR_CMMNT = ? WHERE PAR_NUM = ? ";
+	public static String updateParMasterQuery               =   " UPDATE PAR_MSTR SET PAR_DESC_TXT = ?, PAR_RCVD_DT = ?, PAR_STTS = ? WHERE PAR_NUM = ? ";
+	public static String updateEmailSentQuery               =   " UPDATE PAR_MSTR SET EMAIL_SENT = ?,PAR_CMMNT = ? WHERE PAR_NUM = ?";
+	public static String updateParCommentQuery              =   " UPDATE PAR_MSTR SET PAR_CMMNT = ? WHERE PAR_NUM = ?";
 	public static String UpdateIntentToFillQuery            =   " UPDATE PAR_MSTR SET INTNT_TO_FIL_IND = ? , INTNT_SENT_DT = ? WHERE PAR_ID = ?";
+	public static String deleteParMasterQuery               =   " DELETE FROM PAR_MSTR WHERE PAR_NUM = ?";
 
 // Par Relation Queries
 	
 	public static String createParRltnQuery                 =   " INSERT INTO PAR_RLTN (PAR_CD,ROLE_CD,SKILL_CD,AREA_CD,EXT_STAFF_CD,LOC_CD) VALUES(?,?,?,?,?,?)";
-	public static String updateParRltnQuery                 =   " UPDATE PAR_RLTN SET ROLE_CD = ? , AREA_CD = ?,SKILL_CD = ?, EXT_STAFF_CD = ? , LOC_CD= ? WHERE PAR_CD = ?";
+	public static String updateParRltnQuery                 =   " UPDATE PAR_RLTN SET ROLE_CD = ? ,SKILL_CD = ?, AREA_CD = ?, EXT_STAFF_CD = ? , LOC_CD= ? WHERE PAR_CD = ?";
+	public static String deleteParRltnQuery                 =   " DELETE FROM PAR_RLTN PR,PAR_MASTER PM  WHERE PR.PAR_CD = PM.PAR_ID AND PAR_NUM = ?";
 
 // Par Allocation Queries
 	
-	public static String createParAllocationQuery           =   " INSERT INTO PAR_ALLOCATION(PAR_ALLOC_ID,PAR_CD,RECRUIT_CD,PRE_SCR_CD,CAND_CD,PRE_SCR_DT,PRE_SCR_CMNT_TXT,SUBMIT_IND,SUBMIT_DT,OFFER_RECVD_IND,EXPT_START_DT,ACTUAL_START_DT) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)_";
+	public static String createParAllocationQuery           =   " INSERT INTO PAR_ALLOCATION(PAR_ALLOC_ID,PAR_CD,RECRUIT_CD,CAND_CD) VALUES(NEXTVAL('PAR_ALLOC_SEQ'),?,?,?)";
+	public static String updateCandidateReceivedQuery       =   " UPDATE PAR_ALLOCATION SET CAND_CD = ? , RECRUIT_CD = ? WHERE PAR_ALLOC_ID = ?";
+	public static String getCandidateReceivedByParNumQuery  =   " SELECT PA.PAR_ALLOC_ID,PA.PAR_CD,PA.RECRUIT_CD,PA.CAND_CD,C.CAND_NM,C.CAND_RCVD_DT,R.RECRUIT_NM"
+															  + " FROM PAR_ALLOCATION PA, PAR_MSTR PM,CANDIDATE C, RECRUITER R "
+															  + " WHERE PM.PAR_ID = PA.PAR_CD "
+															  + " AND PA.CAND_CD = C.CAND_ID "
+															  + " AND PA.RECRUIT_CD = R.RECRUIT_ID"
+															  + " AND PM.PAR_NUM = ?";
+	public static String getCandidateReceivedByParCdQuery   =   " SELECT PA.PAR_ALLOC_ID,PA.PAR_CD,PA.RECRUIT_CD,PA.CAND_CD,C.CAND_NM,C.CAND_RCVD_DT,R.RECRUIT_NM"
+															  + " FROM PAR_ALLOCATION PA,CANDIDATE C, RECRUITER R "
+															  + " WHERE PA.CAND_CD = C.CAND_ID "
+															  + " AND PA.RECRUIT_CD = R.RECRUIT_ID"
+															  + " AND PA.PAR_CD = ?";
+			
+	public static String deleteParAllocationQuery           =   " DELETE FROM PAR_ALLOCATION WHERE PAR_ALLOC_ID = ?";
+	
+	
+	
+	public static String updateSubmitCandidateQuery	        =   "UPDATE PAR_ALLOCATION SET SUBMIT_IND = ?, SUBMIT_DT = ? WHERE PAR_ALLOC_ID = ? AND PAR_CD = ?";
+	
+															  
+	public static String getParAllocationByParNumQuery      =   " SELECT PA.PAR_ALLOC_ID,PA.PAR_CD,PA.RECRUIT_CD,PA.PRE_SCR_CD,PA.CAND_CD,PA.PRE_SCR_DT,PA.PRE_SCR_CMNT_TXT,PA.SUBMIT_IND,PA.SUBMIT_DT,PA.OFFER_RECVD_IND,PA.EXPTD_START_DT,PA.ACTUAL_START_DT "
+			                                                  + " FROM PAR_ALLOCATION PA, PAR_MSTR PM "
+			                                                  + " WHERE PM.PAR_ID = PA.PAR_CD "
+			                                                  + " AND PM.PAR_NUM = ?";
+	
+    public static String updatePrescreeningQuery	       =   " UPDATE PAR_ALLOCATION SET PRE_SCR_CD = ? ,PRE_SCR_DT = ? ,PRE_SCR_CMNT_TXT = ? WHERE PAR_ALLOC_ID = ? AND PAR_CD = ?";
+			                                               
 
 }

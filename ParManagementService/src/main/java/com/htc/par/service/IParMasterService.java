@@ -1,21 +1,23 @@
 package com.htc.par.service;
 
-import java.util.List;
 
 import org.springframework.stereotype.Service;
-
 import com.htc.par.exceptions.ResourceAccessException;
 import com.htc.par.exceptions.ResourceNotCreatedException;
 import com.htc.par.exceptions.ResourceNotFoundException;
+import com.htc.par.exceptions.ResourceNotUpdatedException;
 import com.htc.par.model.ParMaster;
 
 @Service
 public interface IParMasterService {
 	
 	String createParMaster(ParMaster parmaster) throws ResourceNotCreatedException;
-	String updateIntentToFill(int parId,String parNum,Boolean intentToFill,String intentSentDate) throws ResourceNotFoundException;
+	String updateParMaster(ParMaster parmaster) throws ResourceNotUpdatedException;
+	String deleteParMaster(int parId) throws ResourceNotFoundException;
+	String updateEmailSent(ParMaster parmaster) throws ResourceNotFoundException;
 	Boolean createParMasterRltn(ParMaster parmaster) throws ResourceNotCreatedException;
-	List<ParMaster> getParMasterByParNum(String parNum) throws ResourceNotFoundException;
+	ParMaster getParMasterByParNum(String parNum) throws ResourceNotFoundException;
 	int getNextParSeqId() throws ResourceAccessException;
+	String updateIntentToFill(int parId,String parNum,Boolean intentToFill,String intentSentDate) throws ResourceNotFoundException;
 
 }

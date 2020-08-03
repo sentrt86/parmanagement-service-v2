@@ -1,9 +1,7 @@
 package com.htc.par.controller;
 
-import java.util.List;
 
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.htc.par.exceptions.ResourceAccessException;
 import com.htc.par.exceptions.ResourceNotCreatedException;
+import com.htc.par.exceptions.ResourceNotUpdatedException;
 import com.htc.par.model.ParMaster;
 import com.htc.par.service.ParMasterServiceImpl;
+
 
 @RestController
 @RequestMapping("/par/parmaster")
@@ -49,6 +49,28 @@ public class ParMasterController {
 		return new  ResponseEntity<String>(parMasterServiceImpl.createParMaster(parmaster),HttpStatus.OK);
 	}
 	
+	/*
+	 * Request handler to update par information in the par master and par relation table
+	 * 
+	 * @ResourceNotFoundException
+	 */
+	
+	@RequestMapping(value="/updateParMaster",method=RequestMethod.POST)
+	public ResponseEntity<String> updateParMaster(@RequestBody @Valid ParMaster parmaster) throws ResourceNotUpdatedException{
+		return new  ResponseEntity<String>(parMasterServiceImpl.updateParMaster(parmaster),HttpStatus.OK);
+	}
+	
+	/*
+	 * Request handler to delete par information in the par master and par relation table
+	 * 
+	 * @ResourceNotFoundException
+	 */
+	
+	@RequestMapping(value="/deleteParMaster/{parNum}",method=RequestMethod.POST)
+	public ResponseEntity<String> deleteParMaster(@PathVariable("parNum") int parNum) throws ResourceNotUpdatedException{
+		return new  ResponseEntity<String>(parMasterServiceImpl.deleteParMaster(parNum),HttpStatus.OK);
+	}
+	
 	
 	/*
 	 * Request handler to get the par information for particular par num
@@ -57,10 +79,12 @@ public class ParMasterController {
 	 */
 	
 	@RequestMapping(value="/getParMasterByParNum/{parNum}",method=RequestMethod.GET)
-	public ResponseEntity<List<ParMaster>> getParMasterByParNum(@PathVariable("parNum") String parNum) throws ResourceNotCreatedException{
+	public ResponseEntity<ParMaster> getParMasterByParNum(@PathVariable("parNum") String parNum) throws ResourceNotCreatedException{
 		System.out.println("Par no:"+parNum);
-		return new  ResponseEntity<List<ParMaster>>(parMasterServiceImpl.getParMasterByParNum(parNum),HttpStatus.OK);
+		return new  ResponseEntity<ParMaster>(parMasterServiceImpl.getParMasterByParNum(parNum),HttpStatus.OK);
 	}
+	
+	
 	
 	/*
 	 * Request handler to update the intent to fill and intent sent date
@@ -72,5 +96,18 @@ public class ParMasterController {
 	public ResponseEntity<String> updateIntentToFill(@RequestBody @Valid ParMaster parmaster) throws ResourceNotCreatedException{
 		return new  ResponseEntity<String>(parMasterServiceImpl.updateIntentToFill(parmaster.getParId(),parmaster.getParNumber(),parmaster.getIntentToFill(),parmaster.getIntentSentDate()),HttpStatus.OK);
 	}
+	
+	
+	/*
+	 * Request handler to update the email sent
+	 * 
+	 * @ResourceNotFoundException
+	 */
+	
+	@RequestMapping(value="/updateEmailSent",method=RequestMethod.POST)
+	public ResponseEntity<String> updateEmailSent(@RequestBody @Valid ParMaster parmaster) throws ResourceNotCreatedException{
+		return new  ResponseEntity<String>(parMasterServiceImpl.updateEmailSent(parmaster),HttpStatus.OK);
+	}
+	
 
 }
