@@ -155,7 +155,19 @@ public class ParSqlQueries {
 			                                                  + " WHERE PM.PAR_ID = PA.PAR_CD "
 			                                                  + " AND PM.PAR_NUM = ?";
 	
+	public static String updateCandidateOnBoardQuery	   =   "UPDATE PAR_ALLOCATION SET ACTUAL_START_DT = ? WHERE PAR_CD = ? AND CAND_CD = ?";
+	
     public static String updatePrescreeningQuery	       =   " UPDATE PAR_ALLOCATION SET PRE_SCR_CD = ? ,PRE_SCR_DT = ? ,PRE_SCR_CMNT_TXT = ? WHERE PAR_ALLOC_ID = ? AND PAR_CD = ?";
+    
+    public static String getParMasterbyCandidateId          =  " SELECT PM.PAR_ID,PM.PAR_NUM,PM.PAR_DESC_TXT,PM.PAR_RCVD_DT,PM.PAR_STTS,PM.INTNT_TO_FIL_IND,PM.INTNT_SENT_DT,PM.EMAIL_SENT,PM.PAR_CMMNT,A.AREA_ID,A.AREA_NM,A.AREA_ACTIVE,S.SKILL_ID,S.SKILL_NM,S.SKILL_ACTIVE,PR.ROLE_ID,PR.ROLE_NM,PR.ROLE_ACTIVE,E.EXT_STAFF_ID,E.EXT_STAFF_NM,E.EXT_STAFF_ACTIVE,L.LOC_ID,L.LOC_NM,L.LOC_ACTIVE "
+															  + " FROM PAR_MSTR PM,PAR_RLTN PMR, AREA_LKUP A, SKILL_LKUP S, ROLE_LKUP PR, EXT_STAFF_LKUP E, LOCATION L "
+															  + " WHERE PM.PAR_ID = PMR.PAR_CD "
+															  + " AND A.AREA_ID = PMR.AREA_CD "
+															  + " AND S.SKILL_ID = PMR.SKILL_CD "
+															  + " AND PR.ROLE_ID = PMR.ROLE_CD "
+															  + " AND L.LOC_ID = PMR.LOC_CD "
+															  + " AND E.EXT_STAFF_ID = PMR.EXT_STAFF_CD "
+															  + " AND PM.PAR_ID IN (SELECT PAR_CD FROM PAR_ALLOCATION WHERE CAND_CD= ?)";
 			                                               
 
 }

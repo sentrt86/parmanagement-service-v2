@@ -156,4 +156,16 @@ public class ParAllocationDAOImpl implements IParAllocationDAO {
 		return jdbcTemplate.query(ParSqlQueries.getCandidateReceivedByParCdQuery,new Object[]{parCode}, new CandidateReceivedRowMapper());
 	}
 
+
+	public boolean updateCandidateOnBoard(ParAllocation parAllocation) {
+		Boolean CandidateOnBoard = false;
+		Object[] parms = new Object[] {LocalDate.parse(parAllocation.getActualStartDate()),parAllocation.getParCode(),parAllocation.getCandidate().getCandidateId()};
+		int[] parmsType = new int[] {Types.DATE,Types.INTEGER,Types.INTEGER};
+		int updateCount = jdbcTemplate.update(ParSqlQueries.updateCandidateOnBoardQuery,parms,parmsType);
+		if(updateCount > 0) {
+			CandidateOnBoard = true;
+		}		
+		return CandidateOnBoard;
+	}
+
 }

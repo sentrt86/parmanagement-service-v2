@@ -82,7 +82,11 @@ public class ParMasterServiceImpl  implements IParMasterService{
 	public ParMaster getParMasterByParNum(String parNum) throws ResourceNotFoundException {
 		ParMaster parMaster = null; 
 		try {
+			
 			parMaster = parMasterDaoImpl.getParMasterByParNum(parNum);
+			System.out.println("par master service");
+			System.out.println("===================");
+			System.out.println("parmaster"+parMaster);
 		}catch(EmptyResultDataAccessException ex) {
 			parMaster = null;
 		}catch(DataAccessException ex) { 

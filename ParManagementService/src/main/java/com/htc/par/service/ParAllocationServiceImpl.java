@@ -3,6 +3,8 @@ package com.htc.par.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -142,4 +144,18 @@ public class ParAllocationServiceImpl implements IParAllocationService{
 		return String.format(ParConstants.updateUnSuccessfull + "for Par Allocation Candidate : %s",parAllocationTO.getCandidate().getCandidateName());
 	}
 
+	public String updateCandidateOnBoard(@Valid ParAllocationTO parAllocationTO) throws ResourceNotFoundException {
+		try {
+			System.out.println("SEnthil ---- candidate on board");
+			System.out.println("parallocation"+parAllocationTO);
+			boolean parAllocationUpdated = parAllocationDaoImpl.updateCandidateOnBoard(new ParAllocation(parAllocationTO));
+			if (parAllocationUpdated)
+			{
+				return String.format(ParConstants.updateSuccessfull + "for Par Allocation  Candidate : %s",parAllocationTO.getCandidate().getCandidateName());
+			}
+		}catch(DataAccessException ex) { 
+			throw new ResourceNotUpdatedException(String.format(ParConstants.updateUnSuccessfull + "for Par Allocation Candidate : %S",parAllocationTO.getCandidate().getCandidateName()));
+		}
+		return String.format(ParConstants.updateUnSuccessfull + "for Par Allocation Candidate : %s",parAllocationTO.getCandidate().getCandidateName());
+	}
 }

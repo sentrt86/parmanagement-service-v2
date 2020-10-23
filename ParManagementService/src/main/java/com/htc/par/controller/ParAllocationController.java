@@ -96,5 +96,9 @@ public class ParAllocationController {
 		return new  ResponseEntity<String>(parAllocationServiceImpl.updatePrescreening(parAllocationTO),HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/updateCandidateOnBoard",method=RequestMethod.POST)
+	public ResponseEntity<String> updateCandidateOnBoard(@RequestBody @Valid ParAllocationTO parAllocationTO) throws ResourceNotCreatedException{
+		return new  ResponseEntity<String>(parAllocationServiceImpl.updateCandidateOnBoard(parAllocationTO),HttpStatus.OK);
+	}
 
 }

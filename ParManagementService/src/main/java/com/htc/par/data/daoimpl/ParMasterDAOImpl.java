@@ -93,6 +93,7 @@ public class ParMasterDAOImpl implements IParMasterDAO{
 	@SuppressWarnings("unchecked")
 	@Override
 	public ParMaster getParMasterByParNum(String parNum) {	
+		System.out.println("second service-DAO par num"+parNum);
 		return (ParMaster) jdbcTemplate.queryForObject(ParSqlQueries.getParMasterByParNumQuery,new Object[]{parNum}, new ParMasterRowMapper());
 	}
 
